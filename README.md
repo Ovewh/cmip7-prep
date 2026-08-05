@@ -15,7 +15,7 @@ A Python library and driver script for preparing CESM and NorESM native model ou
 
 ## Generating the cmor output is accomplished in three steps:
 
-**Step 1**: The yaml mapping files for both CESM/NorESM are obtained from csv files that in turn are obtained from corresponding google-sheets that are filled in by the scientists. 
+**Step 1**: The yaml mapping files for both CESM/NorESM are obtained from csv files that in turn are obtained from corresponding google-sheets that are filled in by the scientists.
 The step from google-sheet to yaml file is done using the script **convert_csv_to_yaml.py** and per-realm yaml files are created. Note that for NorESM, a filter is applied the file by whether the variables have a NorESM name dependency column is filled in or not. In addition to being in the sheet, to be produce each variable needs to have all of its dependent variables in the output.
 
 **Step 2**: Time series for each realm need to be generated from the time slice files. This is done using the script **gen_timeseries.py** which creates time series files per variable and per different time frequencies.
@@ -59,10 +59,18 @@ pip install -e .
 ```
 
 **NIRD (NorESM):**
+From inside this clone of cmip7-prep
 ```bash
-conda activate /projects/NS9560K/diagnostics/cmordev_env/
-pip install -e .
+cd scripts
+. setup_nird.sh
 ```
+
+Alternatively you can load up Miniforge yourself, load this conda environment and then add the path to this repository to your python path
+```bash
+conda activate /projects/NS9560K/diagnostics/cmordev_env_312/
+export PYTHONPATH=/path/to/repo/cmip7-prep/src:$PYTHONPATH
+```
+Swap `/path/to/repo` with the root path where this repository is cloned
 
 ## Quickstart
 

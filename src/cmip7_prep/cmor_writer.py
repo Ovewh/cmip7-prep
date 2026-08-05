@@ -1,3 +1,4 @@
+# pylint: disable=too-many-lines
 """Thin CMOR wrapper used by cmip7_prep.
 
 This module centralizes CMOR session setup and writing so that the rest of the
@@ -35,7 +36,8 @@ from .cmor_utils import (
 
 # from .mom6_static import compute_cell_bounds_from_corners
 
-logging.basicConfig(level=logging.INFO)
+# logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 
@@ -108,7 +110,6 @@ class CmorSession(
         try:
             if self._log_path is not None:
                 logger.info("CMOR logfile: %s", self._log_path)
-                print()
                 cmor.setup(
                     inpath=str(self.tables_root / "tables"),
                     netcdf_file_action=getattr(
@@ -735,7 +736,7 @@ class CmorSession(
             funcax_id = cmor.axis(
                 table_entry="pft",
                 units="",
-                coord_vals=np.arange(len(values))#np.asarray(values),
+                coord_vals=np.arange(len(values)),  # np.asarray(values),
             )
 
         # -------------------------
@@ -749,9 +750,8 @@ class CmorSession(
             funcax_id = cmor.axis(
                 table_entry="fuelclass",
                 units="",
-                coord_vals=np.arange(len(values))#np.asarray(values),
+                coord_vals=np.arange(len(values)),  # np.asarray(values),
             )
-
 
         # -------------------------
         # Map dimension names to axis IDs
