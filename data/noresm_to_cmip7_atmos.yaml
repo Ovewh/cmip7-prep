@@ -4,6 +4,233 @@ dataset_overrides:
   source_id: NorESM3
 
 variables:
+ 
+  cl_tpt-al-hxy-u:
+    description: Cloud fraction
+    dims: [lon, lat, lev, time1]
+    formula: CLOUD*100
+    levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
+      units: '1'}
+    sources: [model_var: CLOUD]
+    table: atmos
+    units: fraction
+
+  clh_tpt-u-hxy-u:
+    description: Vertically-integrated high cloud
+    dims: [lon, lat, time1]
+    formula: CLDHGH*100
+    sources: [model_var: CLDHGH]
+    table: atmos
+    units: fraction
+
+  clhmodis_tpt-u-hxy-u:
+    description: MODIS High Level Cloud Fraction
+    dims: [lon, lat, time1]
+    sources: [model_var: CLHMODIS]
+    table: atmos
+    units: percent
+
+  cli_tpt-al-hxy-u:
+    description: Grid box averaged cloud ice amount
+    dims: [lon, lat, lev, time1]
+    levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
+      units: '1'}
+    sources: [model_var: CLDICE]
+    table: atmos
+    units: kg/kg
+
+  climodis_tpt-u-hxy-u:
+    description: MODIS Ice Cloud Fraction
+    dims: [lon, lat, time1]
+    sources: [model_var: CLIMODIS]
+    table: atmos
+    units: percent
+
+  clivi_tpt-u-hxy-u:
+    description: Total grid-box cloud ice water path
+    dims: [lon, lat, time1]
+    sources: [model_var: TGCLDIWP]
+    table: atmos
+    units: kg m-2
+
+  cll_tpt-u-hxy-u:
+    description: Vertically-integrated low cloud
+    dims: [lon, lat, time1]
+    formula: CLDLOW*100
+    sources: [model_var: CLDLOW]
+    table: atmos
+    units: fraction
+
+  cllmodis_tpt-u-hxy-u:
+    description: MODIS Low level cloud fraction
+    dims: [lon, lat, time1]
+    sources: [model_var: CLLMODIS]
+    table: atmos
+    units: percent
+
+  clm_tpt-u-hxy-u:
+    description: Vertically-integrated mid-level cloud
+    dims: [lon, lat, time1]
+    formula: CLDMED*100
+    sources: [model_var: CLDMED]
+    table: atmos
+    units: fraction
+
+  clmmodis_tpt-u-hxy-u:
+    description: MODIS Mid level cloud fraction
+    dims: [lon, lat, time1]
+    sources: [model_var: CLMMODIS]
+    table: atmos
+    units: percent
+
+  clmodis_tpt-u-hxy-u:
+    description: MODIS Total Cloud fraction
+    dims: [lon, lat, time1]
+    sources: [model_var: CLTMODIS]
+    table: atmos
+    units: percent
+
+  clt_tpt-u-hxy-u:
+    description: Vertically-integrated total cloud
+    dims: [lon, lat, time1]
+    formula: CLDTOT*100
+    sources: [model_var: CLDTOT]
+    table: atmos
+    units: fraction
+
+  clw_tpt-al-hxy-u:
+    description: Grid box averaged cloud liquid amount
+    dims: [lon, lat, lev, time1]
+    levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
+      units: '1'}
+    sources: [model_var: CLDLIQ]
+    table: atmos
+    units: kg/kg
+
+  clwmodis_tpt-u-hxy-u:
+    description: MODIS Liquid Cloud Fraction
+    dims: [lon, lat, time1]
+    sources: [model_var: CLWMODIS]
+    table: atmos
+    units: percent
+
+  clwvi_tpt-u-hxy-u:
+    description: Total grid-box cloud liquid water path
+    dims: [lon, lat, time1]
+    sources: [model_var: TGCLDLWP]
+    table: atmos
+    units: kg m-2
+
+  dtauiccmodis_tpt-u-hxy-u:
+    description: MODIS Ice Cloud Optical Thickness*CLIMODIS
+    dims: [lon, lat, time1]
+    sources: [model_var: TAUIMODIS]
+    table: atmos
+    units: '1'
+
+  dtaulicmodis_tpt-u-hxy-u:
+    description: MODIS Liquid Cloud Optical Thickness*CLWMODIS
+    dims: [lon, lat, time1]
+    sources: [model_var: TAUWMODIS]
+    table: atmos
+    units: '1'
+
+  dtaumodis_tpt-u-hxy-u:
+    description: MODIS Total Cloud Optical Thickness*CLTMODIS
+    dims: [lon, lat, time1]
+    sources: [model_var: TAUTMODIS]
+    table: atmos
+    units: '1'
+
+  fice_tpt-al-hxy-u:
+    description: Fractional ice content within cloud
+    dims: [lon, lat, time1]
+    sources: [model_var: FICE]
+    table: atmos
+    units: fraction
+
+  icnumcldtop_tpt-u-hxy-u:
+    description: Average Cloud Top Ice number
+    dims: [lon, lat, time1]
+    sources: [model_var: ACTNI]
+    table: atmos
+    units: m-3
+
+  iwpmodis_tpt-u-hxy-u:
+    description: MODIS Cloud Ice Water Path * CLIMODIS
+    dims: [lon, lat, time1]
+    sources: [model_var: IWPMODIS]
+    table: atmos
+    units: kg m-2
+
+  lwpmodis_tpt-u-hxy-u:
+    description: MODIS Cloud Liquid water Path * CLWMODIS
+    dims: [lon, lat, time1]
+    sources: [model_var: LWPMODIS]
+    table: atmos
+    units: kg m-2
+
+  ndnumcldtop_tpt-u-hxy-u:
+    description: Average Cloud Top droplet number
+    dims: [lon, lat, time1]
+    sources: [model_var: ACTNL]
+    table: atmos
+    units: m-3
+
+  ndnumcldtopb_tpt-u-hxy-u:
+    description: Average Cloud Top  droplet number (Bennartz)
+    dims: [lon, lat, time1]
+    sources: [model_var: ACTNL_B]
+    table: atmos
+    units: m-3
+
+  numice_tpt-al-hxy-u:
+    description: Grid box averaged cloud ice number
+    dims: [lon, lat, lev, time1]
+    levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
+      units: '1'}
+    sources: [model_var: NUMICE]
+    table: atmos
+    units: 1/kg
+
+  numliq_tpt-al-hxy-u:
+    description: Grid box averaged cloud liquid number
+    dims: [lon, lat, lev, time1]
+    levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
+      units: '1'}
+    sources: [model_var: NUMLIQ]
+    table: atmos
+    units: 1/kg
+
+  pctmodis_tpt-u-hxy-u:
+    description: MODIS Cloud Top Pressure*CLTMODIS
+    dims: [lon, lat, time1]
+    sources: [model_var: PCTMODIS]
+    table: atmos
+    units: Pa
+
+  refficcmodis_tpt-u-hxy-u:
+    description: MODIS Ice Cloud  Particle Size*CLIMODIS
+    dims: [lon, lat, time1]
+    sources: [model_var: REFFCLIMODIS]
+    table: atmos
+    units: m
+
+  refflicmodis_tpt-u-hxy-u:
+    description: MODIS Liquid Cloud Particle Size*CLWMODIS
+    dims: [lon, lat, time1]
+    sources: [model_var: REFFCLWMODIS]
+    table: atmos
+    units: m
+
+  ta_tpt-al-hxy-u:
+    description: Temperature
+    dims: [lon, lat, lev, time1]
+    levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
+      units: '1'}
+    sources: [model_var: T]
+    table: atmos
+    units: K
 
   albisccp_tavg-u-hxy-cl:
     description: Time-means are weighted by the ISCCP Total Cloud Fraction - see  https://www.cfmip.org/tools-and-data/cosp.

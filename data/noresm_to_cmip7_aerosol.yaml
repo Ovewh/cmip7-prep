@@ -4,6 +4,294 @@ dataset_overrides:
   source_id: NorESM3
 
 variables:
+  alh550aer10km_tpt-u-hxy-u:
+    description: Aerosol layer height, 550nm extinction weighted, 0-10km
+    dims: [lon, lat, time1]
+    sources: [model_var: ALH10]
+    table: aerosol
+    units: km
+
+  alh550aer6km_tpt-u-hxy-u:
+    description: Aerosol layer height, 550nm extinction weighted, 0-6km
+    dims: [lon, lat, time1]
+    sources: [model_var: ALH06]
+    table: aerosol
+    units: km
+
+  ccn_tpt-u-hxy-ccl:
+    description: Average Cloud Top liquid CCN (Bennartz)
+    dims: [lon, lat, time1]
+    formula: CCN_B/FCTL_B
+    sources: [model_var: CCN_B, model_var: FCTL_B]
+    table: aerosol
+    units: m-3
+
+  cdnc_tpt-al-hxy-u:
+    description: Average cloud water number conc
+    dims: [lon, lat, lev, time1]
+    formula: AWNC/FREQL
+    levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
+      units: '1'}
+    sources: [model_var: AWNC, model_var: FREQL]
+    table: aerosol
+    units: m-3
+
+  conccnpt01_tpt-al-hxy-u:
+    description: CCN concentration at S=0.1%
+    dims: [lon, lat, lev, time1]
+    levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
+      units: '1'}
+    sources: [model_var: CCN3]
+    table: aerosol
+    units: '#/cm3'
+
+  deltah_tpt-al-hxy-u:
+    description: Layer thickness in km
+    dims: [lon, lat, lev, time1]
+    levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
+      units: '1'}
+    sources: [model_var: DELTAH]
+    table: aerosol
+    units: km
+
+  ec550aer_tpt-al-hxy-u:
+    description: aerosol extinction coefficient
+    dims: [lon, lat, lev, time1, lambda550nm]
+    levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
+      units: '1'}
+    sources: [model_var: EC550AER]
+    table: aerosol
+    units: m-1
+
+  fcti_tpt-u-hxy-u:
+    description: Fractional occurrence of cloud top ice
+    dims: [lon, lat, time1]
+    sources: [model_var: FCTI]
+    table: aerosol
+    units: fraction
+
+  fctl_tpt-u-hxy-u:
+    description: Fractional occurrence of cloud top liquid
+    dims: [lon, lat, time1]
+    sources: [model_var: FCTL]
+    table: aerosol
+    units: fraction
+
+  fctlb_tpt-u-hxy-u:
+    description: Fractional occurrence of cloud top liquid (Bennartz)
+    dims: [lon, lat, time1]
+    sources: [model_var: FCTL_B]
+    table: aerosol
+    units: fraction
+
+  freqicefrac_tpt-u-hxy-u:
+    description: Fractional occurrence of ice
+    dims: [lon, lat, time1]
+    sources: [model_var: FREQI]
+    table: aerosol
+    units: fraction
+
+  freqliqfrac_tpt-u-hxy-u:
+    description: Fractional occurrence of liquid
+    dims: [lon, lat, time1]
+    sources: [model_var: FREQL]
+    table: aerosol
+    units: fraction
+
+  mmrdust_tpt-al-hxy-u:
+    description: Dust mass mixing ratio
+    dims: [lon, lat, lev, time1]
+    levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
+      units: '1'}
+    sources: [model_var: mmr_DUST]
+    table: aerosol
+    units: kg kg-1
+
+  od440aer_tpt-u-hxy-u:
+    description: Aerosol optical depth at 440nm
+    dims: [lon, lat, time1, lambda440nm]
+    formula: DOD440/DAYFOC
+    sources: [model_var: DOD440, model_var: DAYFOC]
+    table: aerosol
+    units: '1'
+
+  od550aer_tpt-u-hxy-u:
+    description: Aerosol optical depth at 550nm
+    dims: [lon, lat, time1, lambda550nm]
+    formula: DOD550/DAYFOC
+    sources: [model_var: DOD550, model_var: DAYFOC]
+    table: aerosol
+    units: '1'
+
+  od550dust_tpt-u-hxy-u:
+    description: mineral dust aerosol optical depth 550nm
+    dims: [lon, lat, time1, lambda550nm]
+    sources: [model_var: D550_DU]
+    table: aerosol
+    units: '1'
+
+  od870aer_tpt-u-hxy-u:
+    description: Aerosol optical depth at 870nm
+    dims: [lon, lat, time1, lambda870nm]
+    formula: DOD870/DAYFOC
+    sources: [model_var: DOD870, model_var: DAYFOC]
+    table: aerosol
+    units: '1'
+
+  reffccitop_tpt-u-hxy-cl:
+    description: Average Cloud Top ice effective radius
+    dims: [lon, lat, time1]
+    sources: [model_var: ACTREI]
+    table: aerosol
+    units: micron
+
+  reffcclctop_tpt-u-hxy-cl:
+    description: Average Cloud Top droplet effective radius
+    dims: [lon, lat, time1]
+    sources: [model_var: ACTREL]
+    table: aerosol
+    units: micron
+
+  alh550aer6km_tpt-u-hxy-u:
+    description: Aerosol layer height, 550nm extinction weighted, 0-6km
+    dims: [lon, lat, time1]
+    sources: [model_var: ALH06]
+    table: aerosol
+    units: km
+
+  ccn_tpt-u-hxy-ccl:
+    description: Average Cloud Top liquid CCN (Bennartz)
+    dims: [lon, lat, time1]
+    formula: CCN_B/FCTL_B
+    sources: [model_var: CCN_B, model_var: FCTL_B]
+    table: aerosol
+    units: m-3
+
+  cdnc_tpt-al-hxy-u:
+    description: Average cloud water number conc
+    dims: [lon, lat, lev, time1]
+    formula: AWNC/FREQL
+    levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
+      units: '1'}
+    sources: [model_var: AWNC, model_var: FREQL]
+    table: aerosol
+    units: m-3
+
+  conccnpt01_tpt-al-hxy-u:
+    description: CCN concentration at S=0.1%
+    dims: [lon, lat, lev, time1]
+    levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
+      units: '1'}
+    sources: [model_var: CCN3]
+    table: aerosol
+    units: '#/cm3'
+
+  deltah_tpt-al-hxy-u:
+    description: Layer thickness in km
+    dims: [lon, lat, lev, time1]
+    levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
+      units: '1'}
+    sources: [model_var: DELTAH]
+    table: aerosol
+    units: km
+
+  ec550aer_tpt-al-hxy-u:
+    description: aerosol extinction coefficient
+    dims: [lon, lat, lev, time1, lambda550nm]
+    levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
+      units: '1'}
+    sources: [model_var: EC550AER]
+    table: aerosol
+    units: m-1
+
+  fcti_tpt-u-hxy-u:
+    description: Fractional occurrence of cloud top ice
+    dims: [lon, lat, time1]
+    sources: [model_var: FCTI]
+    table: aerosol
+    units: fraction
+
+  fctl_tpt-u-hxy-u:
+    description: Fractional occurrence of cloud top liquid
+    dims: [lon, lat, time1]
+    sources: [model_var: FCTL]
+    table: aerosol
+    units: fraction
+
+  fctlb_tpt-u-hxy-u:
+    description: Fractional occurrence of cloud top liquid (Bennartz)
+    dims: [lon, lat, time1]
+    sources: [model_var: FCTL_B]
+    table: aerosol
+    units: fraction
+
+  freqicefrac_tpt-u-hxy-u:
+    description: Fractional occurrence of ice
+    dims: [lon, lat, time1]
+    sources: [model_var: FREQI]
+    table: aerosol
+    units: fraction
+
+  freqliqfrac_tpt-u-hxy-u:
+    description: Fractional occurrence of liquid
+    dims: [lon, lat, time1]
+    sources: [model_var: FREQL]
+    table: aerosol
+    units: fraction
+
+  mmrdust_tpt-al-hxy-u:
+    description: Dust mass mixing ratio
+    dims: [lon, lat, lev, time1]
+    levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
+      units: '1'}
+    sources: [model_var: mmr_DUST]
+    table: aerosol
+    units: kg kg-1
+
+  od440aer_tpt-u-hxy-u:
+    description: Aerosol optical depth at 440nm
+    dims: [lon, lat, time1, lambda440nm]
+    formula: DOD440/DAYFOC
+    sources: [model_var: DOD440, model_var: DAYFOC]
+    table: aerosol
+    units: '1'
+
+  od550aer_tpt-u-hxy-u:
+    description: Aerosol optical depth at 550nm
+    dims: [lon, lat, time1, lambda550nm]
+    formula: DOD550/DAYFOC
+    sources: [model_var: DOD550, model_var: DAYFOC]
+    table: aerosol
+    units: '1'
+
+  od550dust_tpt-u-hxy-u:
+    description: mineral dust aerosol optical depth 550nm
+    dims: [lon, lat, time1, lambda550nm]
+    sources: [model_var: D550_DU]
+    table: aerosol
+    units: '1'
+
+  od870aer_tpt-u-hxy-u:
+    description: Aerosol optical depth at 870nm
+    dims: [lon, lat, time1, lambda870nm]
+    formula: DOD870/DAYFOC
+    sources: [model_var: DOD870, model_var: DAYFOC]
+    table: aerosol
+    units: '1'
+
+  reffccitop_tpt-u-hxy-cl:
+    description: Average Cloud Top ice effective radius
+    dims: [lon, lat, time1]
+    sources: [model_var: ACTREI]
+    table: aerosol
+    units: micron
+
+  reffcclctop_tpt-u-hxy-cl:
+    description: Average Cloud Top droplet effective radius
+    dims: [lon, lat, time1]
+    sources: [model_var: ACTREL]
+    table: aerosol
+    units: micron
 
   abs550aer_tavg-u-hxy-u:
     description: Optical thickness of atmospheric aerosols at wavelength 550 nanometers.
