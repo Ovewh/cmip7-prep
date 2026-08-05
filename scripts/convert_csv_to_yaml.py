@@ -98,7 +98,6 @@ MODEL_CONFIGS = {
             "can be derived",
         ],
         "key_column_skip_phrases": [
-            "_tpt-",
             "_tclm-",
             "_tclmdc-",
             "_tminavg-",
