@@ -123,19 +123,19 @@ INCLUDE_PATTERN_MAP = {
             "mon": ["cam.h0a"],
             "day": ["cam.h1a"],
             "6hr": ["cam.h2a"],
-            "3hr": ["cam.h4a"],
+            "3hr": ["cam.h1i","cam.h2i"],
         },
         "atmosChem": {
             "mon": ["cam.h0a"],
             "day": ["cam.h1a"],
             "6hr": ["cam.h2a"],
-            "3hr": ["cam.h4a"],
+            "3hr": ["cam.h1i","cam.h2i"],
         },
         "aerosol": {
             "mon": ["cam.h0a"],
             "day": ["cam.h1a"],
             "6hr": ["cam.h2a"],
-            "3hr": ["cam.h4a"],
+            "3hr": ["cam.h2i","cam.h1i"],
         },
         "land": {
             "mon": ["clm2.h0a"],
@@ -286,6 +286,15 @@ def parse_args():
         help="Override CMIP7 data request variable list and run all variables defined in the YAML mapping file",
     )
     parser.add_argument(
+        "--dataset-json",
+        type=str,
+        default=None,
+        help="Filename (looked up under data/) of the CMOR dataset JSON to use for "
+        "output global attributes (experiment_id, source_id, etc). Optional, "
+        "overrides the model-specific default (cmor_dataset_noresm.json / "
+        "cmor_dataset.json).",
+    )
+    parser.add_argument(
         "--realization-initialization-physics-forcing",
         type=str,
         default="r1i1p1f1",
@@ -403,6 +412,7 @@ def process_one_var(
                 use_cftime=True,
                 parallel=False,
                 open_kwargs=open_kwargs,
+                realm=realm,
             )
             if ds_native is None:
                 logger.warning(f"Source variable(s) not found for {varname}, skipping")
@@ -551,6 +561,7 @@ def process_one_var(
                         "dtype": "float32",
                     },
                     open_kwargs={"decode_timedelta": True},
+                    realm=realm,
                 )
                 logger.debug("ds_cmor is not None")
 
@@ -583,7 +594,9 @@ def process_one_var(
                 # TODO: add NorESM institution_id below
                 # Initialize CMOR class
                 metadata_json = None
-                if model == "noresm":
+                if args.dataset_json:
+                    metadata_json = packaged_dataset_json(args.dataset_json)
+                elif model == "noresm":
                     metadata_json = packaged_dataset_json("cmor_dataset_noresm.json")
 
                 with CmorSession(
@@ -631,7 +644,8 @@ def process_one_var(
                 results.append((str(cmip7name), "ok"))
             except Exception as e:
                 logger.error(
-                    f"Exception while processing {varname} with dims {dims}: {e!r}"
+                    f"Exception while processing {varname} with dims {dims}: {e!r}",
+                    exc_info=True,
                 )
                 results.append((str(varname), f"ERROR: {e!r}"))
     logger.debug(f"Completed all processing for variable: {varname}, results {results}")
@@ -894,10 +908,6 @@ def main():
     # Load requested variables
     if len(cmip_vars) > 0:
         include_patterns = get_include_patterns(model, realm, frequency)
-        if len(include_patterns) == 1:
-            glob_pattern = f"*{include_patterns[0]}*.nc"
-        else:
-            glob_pattern = "*.nc"
 
         # Determine TABLES directory
         _default_tables = Path(__file__).parent.parent / "cmip7-cmor-tables"
@@ -917,14 +927,23 @@ def main():
                 sys.exit(1)
         logger.info(f"Using CMOR tables from: {tables_root}")
 
-        # Determine time series files
-        all_ts_files = sorted(Path(TSDIR).glob(glob_pattern))
+        # Determine time series files: union the matches for each include
+        # pattern (e.g. noresm/aerosol/3hr needs both cam.h1i and cam.h2i) —
+        # a single combined glob would otherwise have to fall back to "*.nc"
+        # and pull in files from unrelated history streams/frequencies.
+        all_ts_files = sorted(
+            {
+                p
+                for pat in include_patterns
+                for p in Path(TSDIR).glob(f"*{pat}*.nc")
+            }
+        )
         logger.info(
-            f"Found {len(all_ts_files)} candidate timeseries files matching '{glob_pattern}'"
+            f"Found {len(all_ts_files)} candidate timeseries files matching patterns {include_patterns}"
         )
         if not all_ts_files:
             logger.error(
-                f"No timeseries files found in {TSDIR} matching '{glob_pattern}'"
+                f"No timeseries files found in {TSDIR} matching patterns {include_patterns}"
             )
             sys.exit(1)
 
@@ -933,7 +952,7 @@ def main():
             varname = v.branded_variable_name.name
             # Filter to only files containing the native model vars needed for this variable
             try:
-                model_vars = _collect_required_model_vars(mapping, [varname])
+                model_vars = _collect_required_model_vars(mapping, [varname], realm=realm)
             except Exception:
                 model_vars = []
             ts_files = sorted(

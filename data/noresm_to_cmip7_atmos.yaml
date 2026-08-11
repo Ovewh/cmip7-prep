@@ -49,7 +49,7 @@ variables:
   clivi_tpt-u-hxy-u:
     description: Total grid-box cloud ice water path
     dims: [lon, lat, time1]
-    sources: [model_var: TGCLDIWP]
+    sources: [{model_var: TGCLDIWP, freq: 3hr}]
     table: atmos
     units: kg m-2
 
@@ -94,7 +94,7 @@ variables:
     description: Vertically-integrated total cloud
     dims: [lon, lat, time1]
     formula: CLDTOT*100
-    sources: [model_var: CLDTOT]
+    sources: [{model_var: CLDTOT, freq: 3hr}]
     table: atmos
     units: fraction
 
@@ -117,7 +117,7 @@ variables:
   clwvi_tpt-u-hxy-u:
     description: Total grid-box cloud liquid water path
     dims: [lon, lat, time1]
-    sources: [model_var: TGCLDLWP]
+    sources: [{model_var: TGCLDLWP, freq: 3hr}]
     table: atmos
     units: kg m-2
 
@@ -228,7 +228,7 @@ variables:
     dims: [lon, lat, lev, time1]
     levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
       units: '1'}
-    sources: [model_var: T]
+    sources: [{model_var: T, freq: 3hr}, {model_var: T, freq: 6hr}]
     table: atmos
     units: K
 
@@ -237,7 +237,7 @@ variables:
       Values will be missing where there are no clouds or no sunlight.
     dims: [lon, lat, time]
     formula: MEANCLDALB_ISCCP/CLDTOT_ISCCP
-    sources: [model_var: MEANCLDALB_ISCCP, model_var: CLDTOT_ISCCP]
+    sources: [{model_var: MEANCLDALB_ISCCP, freq: day}, {model_var: CLDTOT_ISCCP, freq: day}, {model_var: MEANCLDALB_ISCCP, freq: mon}, {model_var: CLDTOT_ISCCP, freq: mon}]
     table: atmos
     units: '1'
 
@@ -245,7 +245,7 @@ variables:
     description: This is the monthly averaged aerosol optical thickness at 550 nm
       due to stratospheric volcanic sulphate aerosols
     dims: [lon, lat, time, lambda550nm]
-    sources: [model_var: AODVVOLC]
+    sources: [{model_var: AODVVOLC, freq: mon}]
     table: atmos
     units: '1.00E-09'
 
@@ -255,14 +255,14 @@ variables:
       areas should be defined to enable exact calculation of global integrals (e.g.,
       of vertical fluxes of energy at the surface and top of the atmosphere).
     dims: [lon, lat]
-    sources: [model_var: area]
+    sources: [{model_var: area, freq: fx}]
     table: atmos
     units: m2
 
   bldep_tavg-u-hxy-u:
     description: Boundary layer depth
     dims: [lon, lat, time]
-    sources: [model_var: PBLH]
+    sources: [{model_var: PBLH, freq: 1hr}, {model_var: PBLH, freq: mon}]
     table: atmos
     units: m
 
@@ -270,7 +270,7 @@ variables:
     description: 'maximum boundary layer height during the day (add cell_methods attribute:
       "time: maximum")'
     dims: [lon, lat, time]
-    sources: [model_var: PBLHMX]
+    sources: [{model_var: PBLHMX, freq: day}]
     table: atmos
     units: m
 
@@ -278,21 +278,21 @@ variables:
     description: 'minimum boundary layer height during the day (add cell_methods attribute:
       "time: minimum")'
     dims: [lon, lat, time]
-    sources: [model_var: PBLHMN]
+    sources: [{model_var: PBLHMN, freq: day}]
     table: atmos
     units: m
 
   cfadDbze94_tavg-h40-hxy-air:
     description: CloudSat Radar Reflectivity
     dims: [lon, lat, alt40, dbze, time]
-    sources: [model_var: CFAD_DBZE94_CS]
+    sources: [{model_var: CFAD_DBZE94_CS, freq: mon}]
     table: atmos
     units: '1'
 
   cfadLidarsr532_tavg-h40-hxy-air:
     description: CALIPSO Scattering Ratio
     dims: [lon, lat, alt40, scatratio, time]
-    sources: [model_var: CFAD_SR532_CAL]
+    sources: [{model_var: CFAD_SR532_CAL, freq: mon}]
     table: atmos
     units: '1'
 
@@ -302,7 +302,7 @@ variables:
     dims: [lon, lat, lev, time]
     levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
       units: '1'}
-    sources: [model_var: CLOUD]
+    sources: [{model_var: CLOUD, freq: day}, {model_var: CLOUD, freq: mon}]
     table: atmos
     units: '%'
 
@@ -315,7 +315,7 @@ variables:
     dims: [lon, lat, lev, time]
     levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
       units: '1'}
-    sources: [model_var: CLDICE]
+    sources: [{model_var: CLDICE, freq: day}, {model_var: CLDICE, freq: mon}]
     table: atmos
     units: kg kg-1
 
@@ -323,14 +323,14 @@ variables:
     description: Percentage cloud cover in optical depth categories.
     dims: [time, plev, lat, lon, tau]
     levels: {name: plev7c, units: Pa}
-    sources: [model_var: FISCCP1_COSP]
+    sources: [{model_var: FISCCP1_COSP, freq: day}, {model_var: FISCCP1_COSP, freq: mon}]
     table: atmos
     units: '%'
 
   clivi_tavg-u-hxy-u:
     description: Ice water path
     dims: [lon, lat, time]
-    sources: [model_var: TGCLDIWP]
+    sources: [{model_var: TGCLDIWP, freq: 3hr}, {model_var: TGCLDIWP, freq: day}, {model_var: TGCLDIWP, freq: mon}]
     table: atmos
     units: kg m-2
 
@@ -339,7 +339,7 @@ variables:
       top of the atmosphere. Include both large-scale and convective cloud.
     dims: [lon, lat, time]
     formula: CLDTOT*100
-    sources: [model_var: CLDTOT]
+    sources: [{model_var: CLDTOT, freq: 1hr}, {model_var: CLDTOT, freq: 3hr}, {model_var: CLDTOT, freq: day}, {model_var: CLDTOT, freq: mon}]
     table: atmos
     units: '%'
 
@@ -347,7 +347,7 @@ variables:
     description: Convective cloud fraction
     dims: [lon, lat, time]
     formula: CONCLD*100
-    sources: [model_var: CONCLD]
+    sources: [{model_var: CONCLD, freq: mon}]
     table: atmos
     units: '%'
 
@@ -357,7 +357,7 @@ variables:
       Project (ISCCP) analysis. Includes both large-scale and convective cloud.  (MODIS).
       Includes both large-scale and convective cloud.
     dims: [lon, lat, time]
-    sources: [model_var: CLDTOT_ISCCP]
+    sources: [{model_var: CLDTOT_ISCCP, freq: day}, {model_var: CLDTOT_ISCCP, freq: mon}]
     table: atmos
     units: '%'
 
@@ -370,14 +370,14 @@ variables:
     dims: [lon, lat, lev, time]
     levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
       units: '1'}
-    sources: [model_var: CLDLIQ]
+    sources: [{model_var: CLDLIQ, freq: day}, {model_var: CLDLIQ, freq: mon}]
     table: atmos
     units: kg kg-1
 
   clwmodis_tavg-u-hxy-u:
     description: MODIS Liquid Cloud Fraction
     dims: [lon, lat, time]
-    sources: [model_var: CLWMODIS]
+    sources: [{model_var: CLWMODIS, freq: mon}]
     table: atmos
     units: '%'
 
@@ -387,7 +387,7 @@ variables:
       to vapor (from underlying surface and vegetation)'
     dims: [lon, lat, time]
     formula: QVEGT+QVEGE+QSOIL
-    sources: [model_var: QVEGT, model_var: QVEGE, model_var: QSOIL]
+    sources: [{model_var: QVEGT, freq: day}, {model_var: QVEGE, freq: day}, {model_var: QSOIL, freq: day}]
     table: atmos
     units: kg m-2 s-1
 
@@ -395,7 +395,7 @@ variables:
     description: This is the 3-hour mean flux.
     dims: [lon, lat, time]
     positive: up
-    sources: [model_var: LHFLX]
+    sources: [{model_var: LHFLX, freq: 1hr}, {model_var: LHFLX, freq: 3hr}, {model_var: LHFLX, freq: day}, {model_var: LHFLX, freq: mon}]
     table: atmos
     units: W m-2
 
@@ -404,7 +404,7 @@ variables:
       is the exchange of heat between the surface and the air by motion of air.
     dims: [lon, lat, time]
     positive: up
-    sources: [model_var: SHFLX]
+    sources: [{model_var: SHFLX, freq: 1hr}, {model_var: SHFLX, freq: 3hr}, {model_var: SHFLX, freq: day}, {model_var: SHFLX, freq: mon}]
     table: atmos
     units: W m-2
 
@@ -413,7 +413,7 @@ variables:
       0 C, and with respect to ice for T<0 C.
     dims: [time, plev, lat, lon]
     levels: {name: plev19, units: Pa}
-    sources: [model_var: RELHUM, model_var: RHW]
+    sources: [{model_var: RELHUM, freq: mon}, {model_var: RHW, freq: mon}]
     table: atmos
     units: '%'
 
@@ -422,7 +422,7 @@ variables:
       0 C, and with respect to ice for T<0 C.
     dims: [time, plev, lat, lon]
     levels: {name: plev19, units: Pa}
-    sources: [model_var: RELHUM, model_var: RHW]
+    sources: [{model_var: RELHUM, freq: day}, {model_var: RHW, freq: day}]
     table: atmos
     units: '%'
 
@@ -430,7 +430,7 @@ variables:
     description: This is the relative humidity with respect to liquid water for T>
       0 C, and with respect to ice for T<0 C.
     dims: [lon, lat, time, height2m]
-    sources: [model_var: RHREFHT]
+    sources: [{model_var: RHREFHT, freq: 1hr}, {model_var: RHREFHT, freq: 6hr}, {model_var: RHREFHT, freq: day}, {model_var: RHREFHT, freq: mon}]
     table: atmos
     units: '%'
 
@@ -438,7 +438,7 @@ variables:
     description: This is the relative humidity with respect to liquid water for T>
       0 C, and with respect to ice for T<0 C.
     dims: [lon, lat, time, height2m]
-    sources: [model_var: RHREFHTMX]
+    sources: [{model_var: RHREFHTMX, freq: day}]
     table: atmos
     units: '%'
 
@@ -446,7 +446,7 @@ variables:
     description: This is the relative humidity with respect to liquid water for T>
       0 C, and with respect to ice for T<0 C.
     dims: [lon, lat, time, height2m]
-    sources: [model_var: RHREFHTMN]
+    sources: [{model_var: RHREFHTMN, freq: day}]
     table: atmos
     units: '%'
 
@@ -456,7 +456,7 @@ variables:
     dims: [lon, lat, lev, time]
     levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
       units: '1'}
-    sources: [model_var: Q]
+    sources: [{model_var: Q, freq: day}, {model_var: Q, freq: mon}]
     table: atmos
     units: '1'
 
@@ -465,14 +465,14 @@ variables:
       air.
     dims: [time, plev, lat, lon]
     levels: {name: plev19, units: Pa}
-    sources: [model_var: Q]
+    sources: [{model_var: Q, freq: day}, {model_var: Q, freq: mon}]
     table: atmos
     units: '1'
 
   huss_tavg-h2m-hxy-u:
     description: Near-surface (usually, 2 meter) specific humidity.
     dims: [lon, lat, time, height2m]
-    sources: [model_var: QREFHT]
+    sources: [{model_var: QREFHT, freq: 6hr}, {model_var: QREFHT, freq: day}, {model_var: QREFHT, freq: mon}]
     table: atmos
     units: '1'
 
@@ -480,8 +480,7 @@ variables:
     description: The total dry mass of black carbon aerosol particles per unit area.
     dims: [lon, lat, time]
     formula: BC_A+BC_AC+BC_AI+BC_AX+BC_N+BC_NI
-    sources: [model_var: BC_A, model_var: BC_AC, model_var: BC_AI, model_var: BC_AX,
-      model_var: BC_N, model_var: BC_NI]
+    sources: [{model_var: BC_A, freq: day}, {model_var: BC_AC, freq: day}, {model_var: BC_AI, freq: day}, {model_var: BC_AX, freq: day}, {model_var: BC_N, freq: day}, {model_var: BC_NI, freq: day}]
     table: atmos
     units: kg m-2
 
@@ -489,8 +488,7 @@ variables:
     description: The total dry mass of sulfate aerosol particles per unit area.
     dims: [lon, lat, time]
     formula: SO4_A1*3+SO4_A2*3+SO4_AC*3+SO4_N*3+SO4_NA*3+SO4_PR*3
-    sources: [model_var: SO4_A1, model_var: SO4_A2, model_var: SO4_AC, model_var: SO4_N,
-      model_var: SO4_NA, model_var: SO4_PR]
+    sources: [{model_var: SO4_A1, freq: day}, {model_var: SO4_A2, freq: day}, {model_var: SO4_AC, freq: day}, {model_var: SO4_N, freq: day}, {model_var: SO4_NA, freq: day}, {model_var: SO4_PR, freq: day}, {model_var: SO4_A1, freq: mon}, {model_var: SO4_A2, freq: mon}, {model_var: SO4_AC, freq: mon}, {model_var: SO4_N, freq: mon}, {model_var: SO4_NA, freq: mon}, {model_var: SO4_PR, freq: mon}]
     table: atmos
     units: kg m-2
 
@@ -498,7 +496,7 @@ variables:
     description: time-means are weighted by the ISCCP Total Cloud Fraction - see  https://www.cfmip.org/tools-and-data/cosp
     dims: [lon, lat, time]
     formula: MEANPTOP_ISCCP/CLDTOT_ISCCP
-    sources: [model_var: MEANPTOP_ISCCP, model_var: CLDTOT_ISCCP]
+    sources: [{model_var: MEANPTOP_ISCCP, freq: day}, {model_var: CLDTOT_ISCCP, freq: day}, {model_var: MEANPTOP_ISCCP, freq: mon}, {model_var: CLDTOT_ISCCP, freq: mon}]
     table: atmos
     units: Pa
 
@@ -506,7 +504,7 @@ variables:
     description: at surface; includes both liquid and solid phases from all types
       of clouds (both large-scale and convective)
     dims: [lon, lat, time]
-    sources: [model_var: PRECT]
+    sources: [{model_var: PRECT, freq: 1hr}, {model_var: PRECT, freq: 3hr}, {model_var: PRECT, freq: 6hr}, {model_var: PRECT, freq: day}, {model_var: PRECT, freq: mon}]
     table: atmos
     units: kg m-2 s-1
 
@@ -514,7 +512,7 @@ variables:
     description: rainfall_flux
     dims: [lon, lat, time]
     formula: PRECT-PRECSC-PRECSL
-    sources: [model_var: PRECT, model_var: PRECSC, model_var: PRECSL]
+    sources: [{model_var: PRECT, freq: day}, {model_var: PRECSC, freq: day}, {model_var: PRECSL, freq: day}]
     table: atmos
     units: kg m-2 s-1
 
@@ -523,7 +521,7 @@ variables:
       phase.  This is the 3-hour mean snowfall flux.
     dims: [lon, lat, time]
     formula: PRECSC+PRECSL
-    sources: [model_var: PRECSC, model_var: PRECSL]
+    sources: [{model_var: PRECSC, freq: 3hr}, {model_var: PRECSL, freq: 3hr}, {model_var: PRECSC, freq: 6hr}, {model_var: PRECSL, freq: 6hr}, {model_var: PRECSC, freq: day}, {model_var: PRECSL, freq: day}, {model_var: PRECSC, freq: mon}, {model_var: PRECSL, freq: mon}]
     table: atmos
     units: kg m-2 s-1
 
@@ -531,14 +529,14 @@ variables:
     description: surface pressure (not mean sea-level pressure), 2-D field to calculate
       the 3-D pressure field from hybrid coordinates
     dims: [lon, lat, time]
-    sources: [model_var: PS]
+    sources: [{model_var: PS, freq: 1hr}, {model_var: PS, freq: 6hr}, {model_var: PS, freq: day}, {model_var: PS, freq: mon}]
     table: atmos
     units: Pa
 
   psl_tavg-u-hxy-u:
     description: Sea Level Pressure
     dims: [lon, lat, time]
-    sources: [model_var: PSL]
+    sources: [{model_var: PSL, freq: 6hr}, {model_var: PSL, freq: day}, {model_var: PSL, freq: mon}]
     table: atmos
     units: Pa
 
@@ -546,21 +544,21 @@ variables:
     description: 2D monthly mean thermal tropopause calculated using WMO tropopause
       definition on 3d temperature
     dims: [lon, lat, time]
-    sources: [model_var: TROP_P]
+    sources: [{model_var: TROP_P, freq: mon}]
     table: atmos
     units: Pa
 
   rld_tavg-alh-hxy-u:
     description: Includes also the fluxes at the surface and TOA.
     dims: [lon, lat, alevhalf, time]
-    sources: [model_var: FDL]
+    sources: [{model_var: FDL, freq: mon}]
     table: atmos
     units: W m-2
 
   rldcs_tavg-alh-hxy-u:
     description: Includes also the fluxes at the surface and TOA.
     dims: [lon, lat, alevhalf, time]
-    sources: [model_var: FDLC]
+    sources: [{model_var: FDLC, freq: mon}]
     table: atmos
     units: W m-2
 
@@ -568,14 +566,14 @@ variables:
     description: Surface downwelling longwave radiation
     dims: [lon, lat, time]
     positive: down
-    sources: [model_var: FLDS]
+    sources: [{model_var: FLDS, freq: 1hr}, {model_var: FLDS, freq: 3hr}, {model_var: FLDS, freq: 6hr}, {model_var: FLDS, freq: day}, {model_var: FLDS, freq: mon}]
     table: atmos
     units: W m-2
 
   rldscs_tavg-u-hxy-u:
     description: Surface downwelling clear-sky longwave radiation
     dims: [lon, lat, time]
-    sources: [model_var: FLDSC]
+    sources: [{model_var: FLDSC, freq: day}, {model_var: FLDSC, freq: mon}]
     table: atmos
     units: W m-2
 
@@ -583,21 +581,21 @@ variables:
     description: Net longwave surface radiation
     dims: [lon, lat, time]
     positive: up
-    sources: [model_var: FLNS]
+    sources: [{model_var: FLNS, freq: day}, {model_var: FLNS, freq: mon}]
     table: atmos
     units: W m-2
 
   rlu_tavg-alh-hxy-u:
     description: Includes also the fluxes at the surface and TOA.
     dims: [lon, lat, alevhalf, time]
-    sources: [model_var: FUL]
+    sources: [{model_var: FUL, freq: mon}]
     table: atmos
     units: W m-2
 
   rlucs_tavg-alh-hxy-u:
     description: Includes also the fluxes at the surface and TOA.
     dims: [lon, lat, alevhalf, time]
-    sources: [model_var: FULC]
+    sources: [{model_var: FULC, freq: mon}]
     table: atmos
     units: W m-2
 
@@ -606,14 +604,14 @@ variables:
     dims: [lon, lat, time]
     formula: FLDS+FLNS
     positive: up
-    sources: [model_var: FLDS, model_var: FLNS]
+    sources: [{model_var: FLDS, freq: 1hr}, {model_var: FLNS, freq: 1hr}, {model_var: FLDS, freq: 3hr}, {model_var: FLNS, freq: 3hr}, {model_var: FLDS, freq: day}, {model_var: FLNS, freq: day}, {model_var: FLDS, freq: mon}, {model_var: FLNS, freq: mon}]
     table: atmos
     units: W m-2
 
   rluscs_tavg-u-hxy-u:
     description: Surface Upwelling Clear-sky Longwave Radiation
     dims: [lon, lat, time]
-    sources: [model_var: FULC]
+    sources: [{model_var: FULC, freq: day}, {model_var: FULC, freq: mon}]
     table: atmos
     units: W m-2
 
@@ -622,14 +620,14 @@ variables:
     dims: [lon, lat, time]
     formula: FSNTOA-FSNT+FLNT
     positive: up
-    sources: [model_var: FSNTOA, model_var: FSNT, model_var: FLNT]
+    sources: [{model_var: FSNTOA, freq: 3hr}, {model_var: FSNT, freq: 3hr}, {model_var: FLNT, freq: 3hr}, {model_var: FSNTOA, freq: day}, {model_var: FSNT, freq: day}, {model_var: FLNT, freq: day}, {model_var: FSNTOA, freq: mon}, {model_var: FSNT, freq: mon}, {model_var: FLNT, freq: mon}]
     table: atmos
     units: W m-2
 
   rsd_tavg-alh-hxy-u:
     description: Includes also the fluxes at the surface and TOA.
     dims: [lon, lat, alevhalf, time]
-    sources: [model_var: FDS]
+    sources: [{model_var: FDS, freq: mon}]
     table: atmos
     units: W m-2
 
@@ -637,7 +635,7 @@ variables:
     description: Net downward shortwave radiation at the surface
     dims: [lon, lat, time]
     positive: down
-    sources: [model_var: FSNS]
+    sources: [{model_var: FSNS, freq: day}, {model_var: FSNS, freq: mon}]
     table: atmos
     units: W m-2
 
@@ -646,7 +644,7 @@ variables:
     dims: [lon, lat, time]
     formula: FSDS-FSNS
     positive: up
-    sources: [model_var: FSDS, model_var: FSNS]
+    sources: [{model_var: FSDS, freq: 1hr}, {model_var: FSNS, freq: 1hr}, {model_var: FSDS, freq: 3hr}, {model_var: FSNS, freq: 3hr}, {model_var: FSDS, freq: day}, {model_var: FSNS, freq: day}, {model_var: FSDS, freq: mon}, {model_var: FSNS, freq: mon}]
     table: atmos
     units: W m-2
 
@@ -655,7 +653,7 @@ variables:
     dims: [lon, lat, time]
     formula: FSDSC-FSNSC
     positive: up
-    sources: [model_var: FSDSC, model_var: FSNSC]
+    sources: [{model_var: FSDSC, freq: day}, {model_var: FSNSC, freq: day}, {model_var: FSDSC, freq: mon}, {model_var: FSNSC, freq: mon}]
     table: atmos
     units: W m-2
 
@@ -663,7 +661,7 @@ variables:
     description: TOA outgoing shortwave radiation
     dims: [lon, lat, time]
     positive: up
-    sources: [model_var: FSUTOA]
+    sources: [{model_var: FSUTOA, freq: 3hr}, {model_var: FSUTOA, freq: day}, {model_var: FSUTOA, freq: mon}]
     table: atmos
     units: W m-2
 
@@ -672,7 +670,7 @@ variables:
     dims: [lon, lat, time]
     formula: SOLIN-FSNTOAC
     positive: up
-    sources: [model_var: SOLIN, model_var: FSNTOAC]
+    sources: [{model_var: SOLIN, freq: 3hr}, {model_var: FSNTOAC, freq: 3hr}, {model_var: SOLIN, freq: day}, {model_var: FSNTOAC, freq: day}, {model_var: SOLIN, freq: mon}, {model_var: FSNTOAC, freq: mon}]
     table: atmos
     units: W m-2
 
@@ -680,21 +678,21 @@ variables:
     description: This is the mean of the speed, not the speed computed from the mean
       u and v components of wind
     dims: [lon, lat, time, height10m]
-    sources: [model_var: U10]
+    sources: [{model_var: U10, freq: 1hr}, {model_var: U10, freq: 3hr}, {model_var: U10, freq: 6hr}, {model_var: U10, freq: day}, {model_var: U10, freq: mon}]
     table: atmos
     units: m s-1
 
   ta_tavg-700hPa-hxy-air:
     description: Air temperature at 700hPa
     dims: [lon, lat, time, p700]
-    sources: [model_var: T700]
+    sources: [{model_var: T700, freq: day}]
     table: atmos
     units: K
 
   ta_tavg-850hPa-hxy-air:
     description: Air temperature at 850hPa
     dims: [lon, lat, time, p850]
-    sources: [model_var: T850]
+    sources: [{model_var: T850, freq: day}]
     table: atmos
     units: K
 
@@ -702,7 +700,7 @@ variables:
     description: Air Temperature
     dims: [time, plev, lat]
     levels: {name: plev39, units: Pa}
-    sources: [model_var: T]
+    sources: [{model_var: T, freq: day}, {model_var: T, freq: mon}]
     table: atmos
     units: K
 
@@ -710,7 +708,7 @@ variables:
     description: 'minimum near-surface (usually, 2 meter) air temperature (add cell_method
       attribute "time: min")'
     dims: [lon, lat, time, height2m]
-    sources: [model_var: TREFMNAV]
+    sources: [{model_var: TREFMNAV, freq: day}]
     table: atmos
     units: K
 
@@ -718,7 +716,7 @@ variables:
     description: Downward eastward wind stress at the surface
     dims: [lon, lat, time]
     positive: down
-    sources: [model_var: TAUX]
+    sources: [{model_var: TAUX, freq: day}, {model_var: TAUX, freq: mon}]
     table: atmos
     units: Pa
 
@@ -727,7 +725,7 @@ variables:
     dims: [lon, lat, lev, time]
     levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
       units: '1'}
-    sources: [model_var: QRL]
+    sources: [{model_var: QRL, freq: mon}]
     table: atmos
     units: K s-1
 
@@ -735,14 +733,14 @@ variables:
     description: zonal mean; hence YZT
     dims: [time, plev, lat]
     levels: {name: plev39, units: Pa}
-    sources: [model_var: QRL]
+    sources: [{model_var: QRL, freq: day}, {model_var: QRL, freq: mon}]
     table: atmos
     units: K s-1
 
   ts_tavg-u-hxy-u:
     description: Surface temperature (skin for open ocean)
     dims: [lon, lat, time]
-    sources: [model_var: TS]
+    sources: [{model_var: TS, freq: 1hr}, {model_var: TS, freq: 6hr}, {model_var: TS, freq: day}, {model_var: TS, freq: mon}]
     table: atmos
     units: K
 
@@ -751,7 +749,7 @@ variables:
     dims: [lon, lat, lev, time]
     levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
       units: '1'}
-    sources: [model_var: U]
+    sources: [{model_var: U, freq: day}, {model_var: U, freq: mon}]
     table: atmos
     units: m s-1
 
@@ -759,7 +757,7 @@ variables:
     description: zonal mean; hence YZT
     dims: [time, plev, lat]
     levels: {name: plev39, units: Pa}
-    sources: [model_var: U]
+    sources: [{model_var: U, freq: day}, {model_var: U, freq: mon}]
     table: atmos
     units: m s-1
 
@@ -771,7 +769,7 @@ variables:
       quantity with standard name height, which is relative to the surface.
     dims: [time, plev, lat]
     levels: {name: plev39, units: Pa}
-    sources: [model_var: Z3]
+    sources: [{model_var: Z3, freq: day}, {model_var: Z3, freq: mon}]
     table: atmos
     units: m
 
@@ -779,6 +777,6 @@ variables:
     description: 2D monthly mean thermal tropopause calculated using WMO tropopause
       definition on 3d temperature
     dims: [lon, lat, time]
-    sources: [model_var: TROP_Z]
+    sources: [{model_var: TROP_Z, freq: mon}]
     table: atmos
     units: m

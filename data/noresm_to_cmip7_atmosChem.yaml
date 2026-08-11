@@ -10,7 +10,7 @@ variables:
       where X is a material constituent of Y.  The chemical formula of CFC11 is CFCl3.  The
       IUPAC name for CFC11 is trichloro-fluoro-methane.
     dims: [time]
-    sources: [model_var: f11vmr]
+    sources: [{model_var: f11vmr, freq: mon}]
     table: atmosChem
     units: '1.00E-12'
 
@@ -19,7 +19,7 @@ variables:
       where X is a material constituent of Y.  The chemical formula of CFC12 is CF2Cl2.  The
       IUPAC name for CFC12 is dichloro-difluoro-methane.
     dims: [time]
-    sources: [model_var: f12vmr]
+    sources: [{model_var: f12vmr, freq: mon}]
     table: atmosChem
     units: '1.00E-12'
 
@@ -29,7 +29,7 @@ variables:
     dims: [lon, lat, lev, time]
     levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
       units: '1'}
-    sources: [model_var: ch4vmr]
+    sources: [{model_var: ch4vmr, freq: mon}]
     table: atmosChem
     units: mol mol-1
 
@@ -38,7 +38,7 @@ variables:
       where X is a material constituent of Y.
     dims: [time, plev, lat, lon]
     levels: {name: plev19, units: Pa}
-    sources: [model_var: ch4vmr]
+    sources: [{model_var: ch4vmr, freq: mon}]
     table: atmosChem
     units: mol mol-1
 
@@ -47,14 +47,14 @@ variables:
       where X is a material constituent of Y.
     dims: [time, plev, lat]
     levels: {name: plev39, units: Pa}
-    sources: [model_var: ch4vmr]
+    sources: [{model_var: ch4vmr, freq: mon}]
     table: atmosChem
     units: mol mol-1
 
   ch4_tavg-u-hm-air:
     description: Global Mean Mole Fraction of CH4
     dims: [time]
-    sources: [model_var: ch4vmr]
+    sources: [{model_var: ch4vmr, freq: mon}]
     table: atmosChem
     units: '1.00E-09'
 
@@ -65,7 +65,7 @@ variables:
     dims: [lon, lat, lev, time]
     levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
       units: '1'}
-    sources: [model_var: n2ovmr]
+    sources: [{model_var: n2ovmr, freq: mon}]
     table: atmosChem
     units: mol mol-1
 
@@ -75,7 +75,7 @@ variables:
       is N2O.
     dims: [time, plev, lat, lon]
     levels: {name: plev19, units: Pa}
-    sources: [model_var: n2ovmr]
+    sources: [{model_var: n2ovmr, freq: mon}]
     table: atmosChem
     units: mol mol-1
 
@@ -85,14 +85,14 @@ variables:
       is N2O.
     dims: [time, plev, lat]
     levels: {name: plev39, units: Pa}
-    sources: [model_var: n2ovmr]
+    sources: [{model_var: n2ovmr, freq: mon}]
     table: atmosChem
     units: mol mol-1
 
   n2o_tavg-u-hm-air:
     description: Global mean Nitrous Oxide (N2O)
     dims: [time]
-    sources: [model_var: n2ovmr]
+    sources: [{model_var: n2ovmr, freq: mon}]
     table: atmosChem
     units: '1.00E-09'
 
@@ -102,6 +102,6 @@ variables:
     dims: [lon, lat, lev, time]
     levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
       units: '1'}
-    sources: [model_var: ozone]
+    sources: [{model_var: ozone, freq: mon}]
     table: atmosChem
     units: mol mol-1

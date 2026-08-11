@@ -9,7 +9,7 @@ variables:
     description: Percentage of entire grid cell  that is covered by bare soil.
     dims: [lon, lat, time, typebare]
     formula: (1-FATES_AREA_PLANTS)*FATES_FRACTION*100
-    sources: [model_var: FATES_AREA_PLANTS, model_var: FATES_FRACTION]
+    sources: [{model_var: FATES_AREA_PLANTS, freq: mon}, {model_var: FATES_FRACTION, freq: mon}, {model_var: FATES_AREA_PLANTS, freq: yr}, {model_var: FATES_FRACTION, freq: yr}]
     table: land
     units: '%'
 
@@ -18,7 +18,7 @@ variables:
       and anthropogenic fires and those associated with anthropogenic land use change
     dims: [lon, lat, time, typeburnt]
     formula: (FATES_BURNFRAC *3600*24*30*100)*FATES_FRACTION
-    sources: [model_var: FATES_BURNFRAC, model_var: FATES_FRACTION]
+    sources: [{model_var: FATES_BURNFRAC, freq: mon}, {model_var: FATES_FRACTION, freq: mon}]
     table: land
     units: '%'
 
@@ -28,8 +28,7 @@ variables:
     dims: [lon, lat, time, typec3pft]
     formula: (FATES_AREA_PLANTS-sumoverpft(FATES_CANOPYCROWNAREA_PF, pftlist=[14],
       dimname='fates_levpft'))*FATES_FRACTION*100
-    sources: [model_var: FATES_AREA_PLANTS, model_var: FATES_CANOPYCROWNAREA_PF,
-      model_var: FATES_FRACTION]
+    sources: [{model_var: FATES_AREA_PLANTS, freq: mon}, {model_var: FATES_CANOPYCROWNAREA_PF, freq: mon}, {model_var: FATES_FRACTION, freq: mon}]
     table: land
     units: '%'
 
@@ -38,7 +37,7 @@ variables:
       grass and crops).
     dims: [lon, lat, time, typec4pft]
     formula: sumoverpft(FATES_CANOPYCROWNAREA_PF, pftlist=[14], dimname='fates_levpft')*FATES_FRACTION*100
-    sources: [model_var: FATES_CANOPYCROWNAREA_PF, model_var: FATES_FRACTION]
+    sources: [{model_var: FATES_CANOPYCROWNAREA_PF, freq: mon}, {model_var: FATES_FRACTION, freq: mon}]
     table: land
     units: '%'
 
@@ -48,7 +47,7 @@ variables:
       The precise distinction between "fine" and "coarse" is model dependent.'
     dims: [lon, lat, time]
     formula: (FATES_LITTER_BG_CWD_EL)*FATES_FRACTION
-    sources: [model_var: FATES_LITTER_BG_CWD_EL, model_var: FATES_FRACTION]
+    sources: [{model_var: FATES_LITTER_BG_CWD_EL, freq: mon}, {model_var: FATES_FRACTION, freq: mon}]
     table: land
     units: kg m-2
 
@@ -56,8 +55,7 @@ variables:
     description: subsurface litter pool fed by root inputs.
     dims: [lon, lat, time]
     formula: (FATES_LITTER_BG_FINE_EL + FATES_LITTER_BG_CWD_EL)*FATES_FRACTION
-    sources: [model_var: FATES_LITTER_BG_FINE_EL, model_var: FATES_LITTER_BG_CWD_EL,
-      model_var: FATES_FRACTION]
+    sources: [{model_var: FATES_LITTER_BG_FINE_EL, freq: mon}, {model_var: FATES_LITTER_BG_CWD_EL, freq: mon}, {model_var: FATES_FRACTION, freq: mon}]
     table: land
     units: kg m-2
 
@@ -66,7 +64,7 @@ variables:
       through  land use change.
     dims: [lon, lat, time]
     formula: CROPPROD1 + TOT_WOODPROD
-    sources: [model_var: CROPPROD1, model_var: TOT_WOODPROD]
+    sources: [{model_var: CROPPROD1, freq: mon}, {model_var: TOT_WOODPROD, freq: mon}]
     table: land
     units: kg m-2
 
@@ -74,7 +72,7 @@ variables:
     description: including fine and coarse roots.
     dims: [lon, lat, time]
     formula: (FATES_VEGC - FATES_VEGC_ABOVEGROUND)*FATES_FRACTION
-    sources: [model_var: FATES_VEGC, model_var: FATES_VEGC_ABOVEGROUND, model_var: FATES_FRACTION]
+    sources: [{model_var: FATES_VEGC, freq: mon}, {model_var: FATES_VEGC_ABOVEGROUND, freq: mon}, {model_var: FATES_FRACTION, freq: mon}]
     table: land
     units: kg m-2
 
@@ -83,7 +81,7 @@ variables:
       value averaged over the land fraction.
     dims: [lon, lat, time, sdepth100cm]
     formula: TOTSOMC_1m / 1000
-    sources: [model_var: TOTSOMC_1m]
+    sources: [{model_var: TOTSOMC_1m, freq: mon}]
     table: land
     units: kg m-2
 
@@ -92,7 +90,7 @@ variables:
       soil carbon for each level
     dims: [lon, lat, sdepth, time]
     formula: SOILC_vr * ZSOI / 1000
-    sources: [model_var: SOILC_vr, model_var: ZSOI]
+    sources: [{model_var: SOILC_vr, freq: mon}, {model_var: ZSOI, freq: mon}]
     table: land
     units: kg m-2
 
@@ -100,7 +98,7 @@ variables:
     description: Carbon mass in the full depth of the soil model.
     dims: [lon, lat, time]
     formula: TOTSOMC / 1000
-    sources: [model_var: TOTSOMC]
+    sources: [{model_var: TOTSOMC, freq: mon}]
     table: land
     units: kg m-2
 
@@ -108,7 +106,7 @@ variables:
     description: Carbon mass per unit area in vegetation.
     dims: [lon, lat, time]
     formula: FATES_VEGC *FATES_FRACTION
-    sources: [model_var: FATES_VEGC, model_var: FATES_FRACTION]
+    sources: [{model_var: FATES_VEGC, freq: mon}, {model_var: FATES_FRACTION, freq: mon}]
     table: land
     units: kg m-2
 
@@ -116,7 +114,7 @@ variables:
     description: Canopy covered fraction
     dims: [lon, lat, time]
     formula: (FATES_AREA_PLANTS)*FATES_FRACTION
-    sources: [model_var: FATES_AREA_PLANTS, model_var: FATES_FRACTION]
+    sources: [{model_var: FATES_AREA_PLANTS, freq: mon}, {model_var: FATES_FRACTION, freq: mon}]
     table: land
     units: '%'
 
@@ -125,14 +123,14 @@ variables:
       evspsblsoi variable, which is only currently defined for monthly averages
     dims: [lon, lat, time]
     positive: up
-    sources: [model_var: QSOIL]
+    sources: [{model_var: QSOIL, freq: 3hr}, {model_var: QSOIL, freq: day}]
     table: land
     units: kg m-2 s-1
 
   evspsblveg_tavg-u-hxy-lnd:
     description: the canopy evaporation+sublimation (if present in model).
     dims: [lon, lat, time]
-    sources: [model_var: QVEGE]
+    sources: [{model_var: QVEGE, freq: mon}]
     table: land
     units: kg m-2 s-1
 
@@ -140,7 +138,7 @@ variables:
     description: Evaporation from canopy
     dims: [lon, lat, time]
     positive: up
-    sources: [model_var: QVEGE]
+    sources: [{model_var: QVEGE, freq: 3hr}, {model_var: QVEGE, freq: day}]
     table: land
     units: kg m-2 s-1
 
@@ -149,7 +147,7 @@ variables:
       of nitrogen due to biological processes.
     dims: [lon, lat, time]
     formula: NFIX_TO_SMINN / 1000
-    sources: [model_var: NFIX_TO_SMINN]
+    sources: [{model_var: NFIX_TO_SMINN, freq: mon}]
     table: land
     units: kg m-2 s-1
 
@@ -158,7 +156,7 @@ variables:
       its way into ocean should be reported here.
     dims: [lon, lat, time]
     formula: SOM_C_LEACHED /1000
-    sources: [model_var: SOM_C_LEACHED]
+    sources: [{model_var: SOM_C_LEACHED, freq: mon}]
     table: land
     units: kg m-2 s-1
 
@@ -169,7 +167,7 @@ variables:
       to compare deforested biomass across models.
     dims: [lon, lat, time]
     formula: DWT_CROPPROD1C_GAIN+DWT_WOODPRODC_GAIN
-    sources: [model_var: DWT_CROPPROD1C_GAIN, model_var: DWT_WOODPRODC_GAIN]
+    sources: [{model_var: DWT_CROPPROD1C_GAIN, freq: mon}, {model_var: DWT_WOODPRODC_GAIN, freq: mon}]
     table: land
     units: kg m-2 s-1
 
@@ -181,14 +179,14 @@ variables:
     dims: [lon, lat, time]
     formula: (FATES_FIRE_CLOSS)*FATES_FRACTION
     positive: up
-    sources: [model_var: FATES_FIRE_CLOSS, model_var: FATES_FRACTION]
+    sources: [{model_var: FATES_FIRE_CLOSS, freq: mon}, {model_var: FATES_FRACTION, freq: mon}]
     table: land
     units: kg m-2 s-1
 
   fLuc_tavg-u-hxy-lnd:
     description: Net Carbon Mass Flux into Atmosphere due to Land Use Change
     dims: [lon, lat, time]
-    sources: [model_var: LAND_USE_FLUX]
+    sources: [{model_var: LAND_USE_FLUX, freq: mon}]
     table: land
     units: kg m-2 s-1
 
@@ -197,7 +195,7 @@ variables:
       finds its way into ocean should be reported here.
     dims: [lon, lat, time]
     formula: (SMIN_NO3_LEACHED+ SMIN_NO3_RUNOFF) / 1000
-    sources: [model_var: SMIN_NO3_LEACHED, model_var: SMIN_NO3_RUNOFF]
+    sources: [{model_var: SMIN_NO3_LEACHED, freq: mon}, {model_var: SMIN_NO3_RUNOFF, freq: mon}]
     table: land
     units: kg m-2 s-1
 
@@ -214,14 +212,14 @@ variables:
       "Litter" is dead plant material in or above the soil.
     dims: [lon, lat, time]
     formula: SMIN_NO3_LEACHED+SMIN_NO3_RUNOFF
-    sources: [model_var: SMIN_NO3_LEACHED, model_var: SMIN_NO3_RUNOFF]
+    sources: [{model_var: SMIN_NO3_LEACHED, freq: mon}, {model_var: SMIN_NO3_RUNOFF, freq: mon}]
     table: land
     units: kg m-2 s-1
 
   fNgasFire_tavg-u-hxy-lnd:
     description: Flux of Nitrogen from the land into the atmosphere due to fire
     dims: [lon, lat, time]
-    sources: [model_var: COL_FIRE_NLOSS]
+    sources: [{model_var: COL_FIRE_NLOSS, freq: mon}]
     table: land
     units: kg m-2 s-1
 
@@ -235,7 +233,7 @@ variables:
       specified, "runoff" refers to the sum of surface runoff and subsurface drainage.
     dims: [lon, lat, time]
     formula: SMIN_NO3_LEACHED / 1000
-    sources: [model_var: SMIN_NO3_LEACHED]
+    sources: [{model_var: SMIN_NO3_LEACHED, freq: mon}]
     table: land
     units: kg m-2 s-1
 
@@ -243,8 +241,7 @@ variables:
     description: Not all models split losses into gaseous and leaching
     dims: [lon, lat, time]
     formula: DENIT+ F_N2O_NIT+ SMIN_NO3_LEACHED + SMIN_NO3_RUNOFF
-    sources: [model_var: DENIT, model_var: F_N2O_NIT, model_var: SMIN_NO3_LEACHED,
-      model_var: SMIN_NO3_RUNOFF]
+    sources: [{model_var: DENIT, freq: mon}, {model_var: F_N2O_NIT, freq: mon}, {model_var: SMIN_NO3_LEACHED, freq: mon}, {model_var: SMIN_NO3_RUNOFF, freq: mon}]
     table: land
     units: kg m-2 s-1
 
@@ -257,7 +254,7 @@ variables:
       when the products decompose in landfill sites.
     dims: [lon, lat, time]
     formula: TOT_WOODPRODC_LOSS+CROPPROD1C_LOSS
-    sources: [model_var: TOT_WOODPRODC_LOSS, model_var: CROPPROD1C_LOSS]
+    sources: [{model_var: TOT_WOODPRODC_LOSS, freq: mon}, {model_var: CROPPROD1C_LOSS, freq: mon}]
     table: land
     units: kg m-2 s-1
 
@@ -266,7 +263,7 @@ variables:
       turnover times, since total fire flux draws from both sources
     dims: [lon, lat, time]
     formula: (FATES_FIRE_CLOSS)*FATES_FRACTION
-    sources: [model_var: FATES_FIRE_CLOSS, model_var: FATES_FRACTION]
+    sources: [{model_var: FATES_FIRE_CLOSS, freq: mon}, {model_var: FATES_FRACTION, freq: mon}]
     table: land
     units: kg m-2 s-1
 
@@ -275,8 +272,7 @@ variables:
       from changing allocation versus changing mortality
     dims: [lon, lat, time]
     formula: (FATES_MORTALITY_CFLUX_CANOPY+FATES_MORTALITY_CFLUX_USTORY)*FATES_FRACTION
-    sources: [model_var: FATES_MORTALITY_CFLUX_CANOPY, model_var: FATES_MORTALITY_CFLUX_USTORY,
-      model_var: FATES_FRACTION]
+    sources: [{model_var: FATES_MORTALITY_CFLUX_CANOPY, freq: mon}, {model_var: FATES_MORTALITY_CFLUX_USTORY, freq: mon}, {model_var: FATES_FRACTION, freq: mon}]
     table: land
     units: kg m-2 s-1
 
@@ -285,8 +281,7 @@ variables:
       from changing allocation versus changing mortality
     dims: [lon, lat, time]
     formula: (FATES_LITTER_IN_EL-FATES_MORTALITY_CFLUX_CANOPY+FATES_MORTALITY_CFLUX_USTORY)*FATES_FRACTION
-    sources: [model_var: FATES_LITTER_IN_EL, model_var: FATES_MORTALITY_CFLUX_CANOPY,
-      model_var: FATES_MORTALITY_CFLUX_USTORY, model_var: FATES_FRACTION]
+    sources: [{model_var: FATES_LITTER_IN_EL, freq: mon}, {model_var: FATES_MORTALITY_CFLUX_CANOPY, freq: mon}, {model_var: FATES_MORTALITY_CFLUX_USTORY, freq: mon}, {model_var: FATES_FRACTION, freq: mon}]
     table: land
     units: kg m-2 s-1
 
@@ -300,7 +295,7 @@ variables:
       and mass_flux_of_carbon_into_litter_from_vegetation_due_to_senescence is mass_flux_of_carbon_into_litter_from_vegetation.
     dims: [lon, lat, time]
     formula: (FATES_LITTER_IN_EL)*FATES_FRACTION
-    sources: [model_var: FATES_LITTER_IN_EL, model_var: FATES_FRACTION]
+    sources: [{model_var: FATES_LITTER_IN_EL, freq: mon}, {model_var: FATES_FRACTION, freq: mon}]
     table: land
     units: kg m-2 s-1
   fracInLut_tsum-u-hxy-lnd:
@@ -308,7 +303,7 @@ variables:
       should be reported as a percentage of atmospheric grid cell
     dims: [lon, lat, landuse, time]
     formula: (FATES_TRANSITION_MATRIX_LULU)*FATES_FRACTION
-    sources: [model_var: FATES_TRANSITION_MATRIX_LULU, model_var: FATES_FRACTION]
+    sources: [{model_var: FATES_TRANSITION_MATRIX_LULU, freq: yr}, {model_var: FATES_FRACTION, freq: yr}]
     table: land
     units: '%'
   fracOutLut_tsum-u-hxy-lnd:
@@ -316,7 +311,7 @@ variables:
       should be reported as percentage of atmospheric grid cell
     dims: [lon, lat, landuse, time]
     formula: (FATES_TRANSITION_MATRIX_LULU)*FATES_FRACTION
-    sources: [model_var: FATES_TRANSITION_MATRIX_LULU, model_var: FATES_FRACTION]
+    sources: [{model_var: FATES_TRANSITION_MATRIX_LULU, freq: yr}, {model_var: FATES_FRACTION, freq: yr}]
     table: land
     units: '%'
 
@@ -328,7 +323,7 @@ variables:
       Reported on land-use tiles.
     dims: [lon, lat, landuse, time]
     formula: (FATES_GPP_LU)*FATES_FRACTION
-    sources: [model_var: FATES_GPP_LU, model_var: FATES_FRACTION]
+    sources: [{model_var: FATES_GPP_LU, freq: mon}, {model_var: FATES_FRACTION, freq: mon}]
     table: land
     units: kg m-2 s-1
 
@@ -339,7 +334,7 @@ variables:
       this biomass and the difference is referred to as the net primary production.
     dims: [lon, lat, time]
     formula: (FATES_GPP)*FATES_FRACTION
-    sources: [model_var: FATES_GPP, model_var: FATES_FRACTION]
+    sources: [{model_var: FATES_GPP, freq: mon}, {model_var: FATES_FRACTION, freq: mon}]
     table: land
     units: kg m-2 s-1
 
@@ -347,7 +342,7 @@ variables:
     description: Total GPP of grass in the grid cell
     dims: [lon, lat, time]
     formula: (sumoverpft(FATES_GPP_PF, pftlist=[12, 13, 14], dimname='fates_levpft'))*FATES_FRACTION
-    sources: [model_var: FATES_GPP_PF, model_var: FATES_FRACTION]
+    sources: [{model_var: FATES_GPP_PF, freq: mon}, {model_var: FATES_FRACTION, freq: mon}]
     table: land
     units: kg m-2 s-1
 
@@ -355,7 +350,7 @@ variables:
     description: Total GPP of shrubs in the grid cell
     dims: [lon, lat, time]
     formula: (sumoverpft(FATES_GPP_PF, pftlist=[7, 8, 9, 10, 11], dimname='fates_levpft'))*FATES_FRACTION
-    sources: [model_var: FATES_GPP_PF, model_var: FATES_FRACTION]
+    sources: [{model_var: FATES_GPP_PF, freq: mon}, {model_var: FATES_FRACTION, freq: mon}]
     table: land
     units: kg m-2 s-1
 
@@ -363,7 +358,7 @@ variables:
     description: Percentage of entire grid cell that is covered by natural grass.
     dims: [lon, lat, time, typenatgr]
     formula: sumoverpft(FATES_CANOPYCROWNAREA_PF, pftlist=[12, 13, 14], dimname='fates_levpft')*FATES_FRACTION*100
-    sources: [model_var: FATES_CANOPYCROWNAREA_PF, model_var: FATES_FRACTION]
+    sources: [{model_var: FATES_CANOPYCROWNAREA_PF, freq: mon}, {model_var: FATES_FRACTION, freq: mon}, {model_var: FATES_CANOPYCROWNAREA_PF, freq: yr}, {model_var: FATES_FRACTION, freq: yr}]
     table: land
     units: '%'
 
@@ -372,7 +367,7 @@ variables:
       vegetation by the (horizontal) surface area of the land on which it grows.
     dims: [lon, lat, time]
     formula: (FATES_LAI)*FATES_FRACTION
-    sources: [model_var: FATES_LAI, model_var: FATES_FRACTION]
+    sources: [{model_var: FATES_LAI, freq: day}, {model_var: FATES_FRACTION, freq: day}, {model_var: FATES_LAI, freq: mon}, {model_var: FATES_FRACTION, freq: mon}]
     table: land
     units: '1'
 
@@ -382,14 +377,14 @@ variables:
       lakes, urban areas, etc.   Sum of all should equal the fraction of the grid-cell
       that is land.
     dims: [lon, lat, vegtype, time]
-    sources: [model_var: PCT_LANDUNIT]
+    sources: [{model_var: PCT_LANDUNIT, freq: mon}]
     table: land
     units: '%'
 
   mrros_tavg-u-hxy-lnd:
     description: surface_runoff_flux
     dims: [lon, lat, time]
-    sources: [model_var: QOVER]
+    sources: [{model_var: QOVER, freq: 3hr}, {model_var: QOVER, freq: day}, {model_var: QOVER, freq: mon}]
     table: land
     units: kg m-2 s-1
 
@@ -397,7 +392,7 @@ variables:
     description: in each soil layer, the mass of water in liquid phase.  Reported
       as "missing" for grid cells occupied entirely by "sea"
     dims: [lon, lat, sdepth, time]
-    sources: [model_var: SOILLIQ]
+    sources: [{model_var: SOILLIQ, freq: day}, {model_var: SOILLIQ, freq: mon}]
     table: land
     units: kg m-2
 
@@ -406,7 +401,7 @@ variables:
       all phases.
     dims: [lon, lat, time]
     formula: TOTSOILLIQ+TOTSOILICE
-    sources: [model_var: TOTSOILLIQ, model_var: TOTSOILICE]
+    sources: [{model_var: TOTSOILLIQ, freq: day}, {model_var: TOTSOILICE, freq: day}, {model_var: TOTSOILLIQ, freq: mon}, {model_var: TOTSOILICE, freq: mon}]
     table: land
     units: kg m-2
 
@@ -415,14 +410,14 @@ variables:
       all the soil in the grid cell by the land area in the grid cell;  reported as
       "missing" where the land fraction is 0.'
     dims: [lon, lat]
-    sources: [model_var: SUCSAT]
+    sources: [{model_var: SUCSAT, freq: fx}]
     table: land
     units: kg m-2
 
   mrsol_tavg-d10cm-hxy-lnd:
     description: the mass of water in all phases in a thin surface soil layer.
     dims: [lon, lat, time, sdepth10cm]
-    sources: [model_var: SOILWATER_10CM]
+    sources: [{model_var: SOILWATER_10CM, freq: day}, {model_var: SOILWATER_10CM, freq: mon}]
     table: land
     units: kg m-2
 
@@ -431,14 +426,14 @@ variables:
       as "missing" for grid cells occupied entirely by "sea"
     dims: [lon, lat, sdepth, time]
     formula: SOILLIQ+SOILICE
-    sources: [model_var: SOILLIQ, model_var: SOILICE]
+    sources: [{model_var: SOILLIQ, freq: day}, {model_var: SOILICE, freq: day}, {model_var: SOILLIQ, freq: mon}, {model_var: SOILICE, freq: mon}]
     table: land
     units: kg m-2
 
   mrtws_tavg-u-hxy-lnd:
     description: canopy_and_surface_and_subsurface_water_amount
     dims: [lon, lat, time]
-    sources: [model_var: TWS]
+    sources: [{model_var: TWS, freq: day}, {model_var: TWS, freq: mon}]
     table: land
     units: kg m-2
 
@@ -447,7 +442,7 @@ variables:
       value averaged over the land fraction.
     dims: [lon, lat, time]
     formula: TOTECOSYSN / 1000
-    sources: [model_var: TOTECOSYSN]
+    sources: [{model_var: TOTECOSYSN, freq: mon}]
     table: land
     units: kg m-2
 
@@ -455,7 +450,7 @@ variables:
     description: SUM of ammonium over all soil layers
     dims: [lon, lat, time]
     formula: SMIN_NH4 / 1000
-    sources: [model_var: SMIN_NH4]
+    sources: [{model_var: SMIN_NH4, freq: mon}]
     table: land
     units: kg m-2
 
@@ -463,7 +458,7 @@ variables:
     description: SUM of nitrate over all soil layers
     dims: [lon, lat, time]
     formula: SMIN_NO3 / 1000
-    sources: [model_var: SMIN_NO3]
+    sources: [{model_var: SMIN_NO3, freq: mon}]
     table: land
     units: kg m-2
 
@@ -471,7 +466,7 @@ variables:
     description: SUM of ammonium, nitrite, nitrate, etc over all soil layers
     dims: [lon, lat, time]
     formula: SMINN / 1000
-    sources: [model_var: SMINN]
+    sources: [{model_var: SMINN, freq: mon}]
     table: land
     units: kg m-2
 
@@ -480,7 +475,7 @@ variables:
       value averaged over the land fraction.
     dims: [lon, lat, time]
     formula: (TOTSOMN+SMINN) / 1000
-    sources: [model_var: TOTSOMN, model_var: SMINN]
+    sources: [{model_var: TOTSOMN, freq: mon}, {model_var: SMINN, freq: mon}]
     table: land
     units: kg m-2
 
@@ -491,14 +486,14 @@ variables:
     dims: [lon, lat, time]
     formula: -FCO2*(12.01/44.01)
     positive: down
-    sources: [model_var: FCO2]
+    sources: [{model_var: FCO2, freq: mon}]
     table: land
     units: kg m-2 s-1
 
   nep_tavg-u-hxy-lnd:
     description: Net Ecosystem Exchange
     dims: [lon, lat, time]
-    sources: [model_var: NEP]
+    sources: [{model_var: NEP, freq: mon}]
     table: land
     units: kg m-2 s-1
 
@@ -506,7 +501,7 @@ variables:
     description: This is the rate of carbon uptake by leaves due to NPP
     dims: [lon, lat, time]
     formula: (FATES_LEAF_ALLOC)*FATES_FRACTION
-    sources: [model_var: FATES_LEAF_ALLOC, model_var: FATES_FRACTION]
+    sources: [{model_var: FATES_LEAF_ALLOC, freq: mon}, {model_var: FATES_FRACTION, freq: mon}]
     table: land
     units: kg m-2 s-1
 
@@ -514,7 +509,7 @@ variables:
     description: added for completeness with npp_root
     dims: [lon, lat, time]
     formula: (FATES_SEED_ALLOC+FATES_STORE_ALLOC)*FATES_FRACTION
-    sources: [model_var: FATES_SEED_ALLOC, model_var: FATES_STORE_ALLOC, model_var: FATES_FRACTION]
+    sources: [{model_var: FATES_SEED_ALLOC, freq: mon}, {model_var: FATES_STORE_ALLOC, freq: mon}, {model_var: FATES_FRACTION, freq: mon}]
     table: land
     units: kg m-2 s-1
 
@@ -522,7 +517,7 @@ variables:
     description: added for completeness with npp_root
     dims: [lon, lat, time]
     formula: (FATES_STEM_ALLOC)*FATES_FRACTION
-    sources: [model_var: FATES_STEM_ALLOC, model_var: FATES_FRACTION]
+    sources: [{model_var: FATES_STEM_ALLOC, freq: mon}, {model_var: FATES_FRACTION, freq: mon}]
     table: land
     units: kg m-2 s-1
 
@@ -539,7 +534,7 @@ variables:
       of A.'
     dims: [lon, lat, vegtype, time]
     formula: (FATES_NPP_PF)*FATES_FRACTION
-    sources: [model_var: FATES_NPP_PF, model_var: FATES_FRACTION]
+    sources: [{model_var: FATES_NPP_PF, freq: day}, {model_var: FATES_FRACTION, freq: day}]
     table: land
     units: kg m-2 s-1
 
@@ -557,7 +552,7 @@ variables:
     dims: [lon, lat, time]
     formula: (FATES_NPP)*FATES_FRACTION
     positive: down
-    sources: [model_var: FATES_NPP, model_var: FATES_FRACTION]
+    sources: [{model_var: FATES_NPP, freq: mon}, {model_var: FATES_FRACTION, freq: mon}]
     table: land
     units: kg m-2 s-1
 
@@ -565,7 +560,7 @@ variables:
     description: Total NPP of grass in the grid cell
     dims: [lon, lat, time]
     formula: (sumoverpft(FATES_NPP_PF, pftlist=[12, 13, 14], dimname='fates_levpft'))*FATES_FRACTION
-    sources: [model_var: FATES_NPP_PF, model_var: FATES_FRACTION]
+    sources: [{model_var: FATES_NPP_PF, freq: mon}, {model_var: FATES_FRACTION, freq: mon}]
     table: land
     units: kg m-2 s-1
 
@@ -573,7 +568,7 @@ variables:
     description: Total NPP of shrubs in the grid cell
     dims: [lon, lat, time]
     formula: (sumoverpft(FATES_NPP_PF, pftlist=[7, 8, 9, 10, 11], dimname='fates_levpft'))*FATES_FRACTION
-    sources: [model_var: FATES_NPP_PF, model_var: FATES_FRACTION]
+    sources: [{model_var: FATES_NPP_PF, freq: mon}, {model_var: FATES_FRACTION, freq: mon}]
     table: land
     units: kg m-2 s-1
 
@@ -581,14 +576,14 @@ variables:
     description: Total NPP of trees in the grid cell
     dims: [lon, lat, time]
     formula: (sumoverpft(FATES_NPP_PF, pftlist=[1, 2, 3, 4, 5, 6], dimname='fates_levpft'))*FATES_FRACTION
-    sources: [model_var: FATES_NPP_PF, model_var: FATES_FRACTION]
+    sources: [{model_var: FATES_NPP_PF, freq: mon}, {model_var: FATES_FRACTION, freq: mon}]
     table: land
     units: kg m-2 s-1
 
   orog_tavg-u-hxy-is:
     description: This is needed in case the ice sheet elevation changes in time
     dims: [lon, lat, time]
-    sources: [model_var: PHIS]
+    sources: [{model_var: PHIS, freq: mon}, {model_var: PHIS, freq: yr}]
     table: land
     units: m
 
@@ -596,14 +591,14 @@ variables:
     description: fraction of entire grid cell  that is covered by anthropogenic pasture.
     dims: [lon, lat, time, typepasture]
     formula: (sumoverpft(FATES_PATCHAREA_LU, pftlist=[4], dimname='fates_levlanduse'))*FATES_FRACTION
-    sources: [model_var: FATES_PATCHAREA_LU, model_var: FATES_FRACTION]
+    sources: [{model_var: FATES_PATCHAREA_LU, freq: mon}, {model_var: FATES_FRACTION, freq: mon}]
     table: land
     units: '%'
 
   qgwr_tavg-u-hxy-lnd:
     description: water_flux_from_soil_layer_to_groundwater
     dims: [lon, lat, time]
-    sources: [model_var: QCHARGE]
+    sources: [{model_var: QCHARGE, freq: day}]
     table: land
     units: kg m-2 s-1
 
@@ -611,7 +606,7 @@ variables:
     description: added for completeness with Ra_root
     dims: [lon, lat, time]
     formula: (FATES_LEAFMAINTAR)*FATES_FRACTION
-    sources: [model_var: FATES_LEAFMAINTAR, model_var: FATES_FRACTION]
+    sources: [{model_var: FATES_LEAFMAINTAR, freq: mon}, {model_var: FATES_FRACTION, freq: mon}]
     table: land
     units: kg m-2 s-1
 
@@ -621,7 +616,7 @@ variables:
       to observations of total soil respiration.
     dims: [lon, lat, time]
     formula: FROOTMAINTAR+CROOTMAINTAR
-    sources: [model_var: FROOTMAINTAR, model_var: CROOTMAINTAR]
+    sources: [{model_var: FROOTMAINTAR, freq: mon}, {model_var: CROOTMAINTAR, freq: mon}]
     table: land
     units: kg m-2 s-1
 
@@ -631,7 +626,7 @@ variables:
     dims: [lon, lat, time]
     formula: FATES_AUTORESP*FATES_FRACTION
     positive: up
-    sources: [model_var: FATES_AUTORESP, model_var: FATES_FRACTION]
+    sources: [{model_var: FATES_AUTORESP, freq: mon}, {model_var: FATES_FRACTION, freq: mon}]
     table: land
     units: kg m-2 s-1
 
@@ -640,7 +635,7 @@ variables:
     dims: [lon, lat, time]
     formula: (sumoverpft(FATES_GPP_PF, pftlist=[1, 2, 3, 4, 5, 6], dimname='fates_levpft')-sumoverpft(FATES_NPP_PF,
       pftlist=[1, 2, 3, 4, 5, 6], dimname='fates_levpft'))*FATES_FRACTION
-    sources: [model_var: FATES_GPP_PF, model_var: FATES_NPP_PF, model_var: FATES_FRACTION]
+    sources: [{model_var: FATES_GPP_PF, freq: mon}, {model_var: FATES_NPP_PF, freq: mon}, {model_var: FATES_FRACTION, freq: mon}]
     table: land
     units: kg m-2 s-1
 
@@ -648,7 +643,7 @@ variables:
     description: Needed to calculate soil bulk turnover time
     dims: [lon, lat, time]
     formula: SOILC_HR /1000
-    sources: [model_var: SOILC_HR]
+    sources: [{model_var: SOILC_HR, freq: mon}]
     table: land
     units: kg m-2 s-1
 
@@ -658,7 +653,7 @@ variables:
     dims: [lon, lat, time]
     formula: HR / 1000
     positive: up
-    sources: [model_var: HR]
+    sources: [{model_var: HR, freq: mon}]
     table: land
     units: kg m-2 s-1
 
@@ -668,8 +663,7 @@ variables:
     dims: [lon, lat, time]
     formula: SNOFSRVI+SNOFSRVD+SNOFSRNI+SNOFSRND
     positive: up
-    sources: [model_var: SNOFSRVI, model_var: SNOFSRVD, model_var: SNOFSRNI,
-      model_var: SNOFSRND]
+    sources: [{model_var: SNOFSRVI, freq: mon}, {model_var: SNOFSRVD, freq: mon}, {model_var: SNOFSRNI, freq: mon}, {model_var: SNOFSRND, freq: mon}]
     table: land
     units: W m-2
 
@@ -678,7 +672,7 @@ variables:
       ice cap, glacier)
     dims: [lon, lat, time]
     formula: sumoverpft(PCT_LANDUNIT, pftlist=[4], dimname='ltype')
-    sources: [model_var: PCT_LANDUNIT]
+    sources: [{model_var: PCT_LANDUNIT, freq: mon}, {model_var: PCT_LANDUNIT, freq: yr}]
     table: land
     units: '%'
 
@@ -686,7 +680,7 @@ variables:
     description: fraction of grid cell occupied by "permanent" ice (i.e., glaciers).
     dims: [lon, lat]
     formula: sumoverpft(PCT_LANDUNIT, pftlist=[4], dimname='ltype')
-    sources: [model_var: PCT_LANDUNIT]
+    sources: [{model_var: PCT_LANDUNIT, freq: fx}]
     table: land
     units: '%'
 
@@ -695,14 +689,14 @@ variables:
     dims: [lon, lat, time, typeshrub]
     formula: sumoverpft(FATES_CANOPYCROWNAREA_PF, pftlist=[7, 8, 9, 10, 11], dimname='fates_levpft')
       *FATES_FRACTION*100
-    sources: [model_var: FATES_CANOPYCROWNAREA_PF, model_var: FATES_FRACTION]
+    sources: [{model_var: FATES_CANOPYCROWNAREA_PF, freq: mon}, {model_var: FATES_FRACTION, freq: mon}, {model_var: FATES_CANOPYCROWNAREA_PF, freq: yr}, {model_var: FATES_FRACTION, freq: yr}]
     table: land
     units: '%'
 
   slthick_ti-sl-hxy-lnd:
     description: Thickness of Soil Layers
     dims: [lon, lat, sdepth]
-    sources: [model_var: ZSOI]
+    sources: [{model_var: ZSOI, freq: fx}]
     table: land
     units: m
 
@@ -710,7 +704,7 @@ variables:
     description: Net radiative flux at surface
     dims: [lon, lat, time]
     formula: FSNS-FLNS
-    sources: [model_var: FSNS, model_var: FLNS]
+    sources: [{model_var: FSNS, freq: 3hr}, {model_var: FLNS, freq: 3hr}]
     table: land
     units: W m-2
 
@@ -719,7 +713,7 @@ variables:
       storage (i.e. lakes, river channel or depression storage).
     dims: [lon, lat, time]
     formula: H2OSFC+ VOLR
-    sources: [model_var: H2OSFC, model_var: VOLR]
+    sources: [{model_var: H2OSFC, freq: day}, {model_var: VOLR, freq: day}]
     table: land
     units: kg m-2
 
@@ -727,14 +721,14 @@ variables:
     description: Transpiration (may include dew formation as a negative flux).
     dims: [lon, lat, time]
     positive: up
-    sources: [model_var: QVEGT]
+    sources: [{model_var: QVEGT, freq: mon}]
     table: land
     units: kg m-2 s-1
 
   tran_tavg-u-hxy-u:
     description: Transpiration
     dims: [lon, lat, time]
-    sources: [model_var: QVEGT]
+    sources: [{model_var: QVEGT, freq: 3hr}]
     table: land
     units: kg m-2 s-1
 
@@ -743,7 +737,7 @@ variables:
       broadleaf deciduous trees.
     dims: [lon, lat, time, typetreebd]
     formula: sumoverpft(FATES_CANOPYCROWNAREA_PF, pftlist=[5, 6], dimname='fates_levpft')*FATES_FRACTION*100
-    sources: [model_var: FATES_CANOPYCROWNAREA_PF, model_var: FATES_FRACTION]
+    sources: [{model_var: FATES_CANOPYCROWNAREA_PF, freq: mon}, {model_var: FATES_FRACTION, freq: mon}]
     table: land
     units: '%'
 
@@ -752,7 +746,7 @@ variables:
       needleleaf deciduous trees.
     dims: [lon, lat, time, typetreend]
     formula: (sumoverpft(FATES_CANOPYCROWNAREA_PF, pftlist=[3], dimname='fates_levpft')*100)*FATES_FRACTION
-    sources: [model_var: FATES_CANOPYCROWNAREA_PF, model_var: FATES_FRACTION]
+    sources: [{model_var: FATES_CANOPYCROWNAREA_PF, freq: mon}, {model_var: FATES_FRACTION, freq: mon}]
     table: land
     units: '%'
 
@@ -761,7 +755,7 @@ variables:
       needleleaf evergreen trees.
     dims: [lon, lat, time, typetreene]
     formula: (sumoverpft(FATES_CANOPYCROWNAREA_PF, pftlist=[2], dimname='fates_levpft')*100)*FATES_FRACTION
-    sources: [model_var: FATES_CANOPYCROWNAREA_PF, model_var: FATES_FRACTION]
+    sources: [{model_var: FATES_CANOPYCROWNAREA_PF, freq: mon}, {model_var: FATES_FRACTION, freq: mon}]
     table: land
     units: '%'
 
@@ -770,7 +764,7 @@ variables:
     dims: [lon, lat, time, typetree]
     formula: sumoverpft(FATES_CANOPYCROWNAREA_PF, pftlist=[1, 2, 3, 4, 5, 6], dimname='fates_levpft')
       *FATES_FRACTION*100
-    sources: [model_var: FATES_CANOPYCROWNAREA_PF, model_var: FATES_FRACTION]
+    sources: [{model_var: FATES_CANOPYCROWNAREA_PF, freq: mon}, {model_var: FATES_FRACTION, freq: mon}, {model_var: FATES_CANOPYCROWNAREA_PF, freq: yr}, {model_var: FATES_FRACTION, freq: yr}]
     table: land
     units: '%'
 
@@ -778,7 +772,7 @@ variables:
     description: Surface temperature (i.e. temperature at which long-wave radiation
       emitted)
     dims: [lon, lat, landuse, time]
-    sources: [model_var: TSKIN]
+    sources: [{model_var: TSKIN, freq: mon}]
     table: land
     units: K
 
@@ -786,7 +780,7 @@ variables:
     description: Temperature of each soil layer.  Reported as "missing" for grid cells
       occupied entirely by "sea".
     dims: [lon, lat, sdepth, time]
-    sources: [model_var: TSOI]
+    sources: [{model_var: TSOI, freq: day}, {model_var: TSOI, freq: mon}]
     table: land
     units: K
 
@@ -797,7 +791,7 @@ variables:
       season).
     dims: [lon, lat, time]
     formula: (CH4_SURF_DIFF_SAT+CH4_SURF_EBUL_SAT+CH4_SURF_AERE_SAT) * 0.016043
-    sources: [model_var: CH4_SURF_DIFF_SAT, model_var: CH4_SURF_EBUL_SAT, model_var: CH4_SURF_AERE_SAT]
+    sources: [{model_var: CH4_SURF_DIFF_SAT, freq: mon}, {model_var: CH4_SURF_EBUL_SAT, freq: mon}, {model_var: CH4_SURF_AERE_SAT, freq: mon}]
     table: land
     units: kg m-2 s-1
 
@@ -807,7 +801,7 @@ variables:
       of the soil all year or for varying periods of time during the year, including
       during the growing season).
     dims: [lon, lat, time]
-    sources: [model_var: CH4PROD]
+    sources: [{model_var: CH4PROD, freq: mon}]
     table: land
     units: kg m-2 s-1
 
@@ -815,13 +809,13 @@ variables:
     description: Percentage of grid cell covered by wetland. Report only one year
       if  fixed percentage is used, or time series if values are determined dynamically.
     dims: [lon, lat, time, typewetla]
-    sources: [model_var: FINUNDATED]
+    sources: [{model_var: FINUNDATED, freq: mon}]
     table: land
     units: '%'
 
   wtd_tavg-u-hxy-lnd:
     description: depth_of_soil_moisture_saturation
     dims: [lon, lat, time]
-    sources: [model_var: ZWT]
+    sources: [{model_var: ZWT, freq: day}]
     table: land
     units: m

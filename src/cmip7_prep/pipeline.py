@@ -44,8 +44,16 @@ def _filename_contains_var(
     return needle in name
 
 
+# Realms whose formulas/masking genuinely depend on the static grid/mask
+# auxiliary fields below. Other realms (atmos, aerosol, atmosChem, ...) don't
+# use these, and since the aux fields live in files with their own (often
+# monthly) time axis, merging them into a higher-frequency variable's native
+# dataset corrupts the combined time coordinate. See _collect_required_model_vars.
+_REALMS_NEEDING_GRID_AUX_VARS = {"land", "ocean", "seaIce", "ocnBgchem"}
+
+
 def _collect_required_model_vars(
-    mapping: Mapping, cmip_vars: Sequence[str]
+    mapping: Mapping, cmip_vars: Sequence[str], realm: Optional[str] = None
 ) -> List[str]:
     """Gather all native model vars needed to realize the requested CMIP vars."""
     needed: set[str] = set()
@@ -71,8 +79,9 @@ def _collect_required_model_vars(
             needed.update({"PS", "hyam", "hybm", "P0"})
         elif (levels.get("name") or "").lower() == "standard_hybrid_sigma":
             needed.update({"PS", "hyam", "hybm", "hyai", "hybi", "P0", "ilev"})
-        for varconst in ("area", "landmask", "landfrac", "TLAT"):
-            needed.add(varconst)
+        if realm in _REALMS_NEEDING_GRID_AUX_VARS:
+            for varconst in ("area", "landmask", "landfrac", "TLAT"):
+                needed.add(varconst)
 
     return sorted(needed)
 
@@ -101,6 +110,7 @@ def open_native_for_cmip_vars(
     use_cftime: bool = True,
     parallel: bool = False,
     open_kwargs: Optional[Dict] = None,
+    realm: Optional[str] = None,
 ) -> xr.Dataset:
     """
     Open timeseries files needed for the requested CMIP variables.
@@ -114,6 +124,9 @@ def open_native_for_cmip_vars(
     mapping : Mapping object that knows how to realize CMIP vars
     use_cftime, parallel : forwarded to xarray.open_mfdataset
     open_kwargs : extra kwargs for open_mfdataset
+    realm : modelling realm being processed; only land/ocean/seaIce/ocnBgchem
+        pull in the static grid/mask auxiliary vars (area, landmask, landfrac,
+        TLAT) — see _collect_required_model_vars.
 
     Returns
     -------
@@ -152,7 +165,7 @@ def open_native_for_cmip_vars(
             )
             continue
 
-        rvar = _collect_required_model_vars(mapping, [var])
+        rvar = _collect_required_model_vars(mapping, [var], realm=realm)
         logger.debug(
             "Looking for native files for CMIP var '%s' needing model vars: %s",
             var,
@@ -170,7 +183,7 @@ def open_native_for_cmip_vars(
                 var,
                 rvar,
             )
-    required = _collect_required_model_vars(mapping, new_cmip_vars)
+    required = _collect_required_model_vars(mapping, new_cmip_vars, realm=realm)
 
     # keep any file that contains ANY of the required model vars as '.var.' in the name
     selected = sorted(
@@ -269,6 +282,7 @@ def realize_regrid_prepare(
     time_chunk: Optional[int] = 12,
     regrid_kwargs: Optional[dict] = None,
     open_kwargs: Optional[dict] = None,
+    realm: Optional[str] = None,
 ) -> xr.Dataset:
     """Open native (if needed) → realize one CMIP variable → verticalize if needed → regrid to 1°.
 
@@ -286,7 +300,7 @@ def realize_regrid_prepare(
     else:
         # Use your existing native opener (don’t add PS here to avoid mapping lookups)
         ds_native = open_native_for_cmip_vars(
-            [cmip_var], ds_or_glob, mapping, **open_kwargs
+            [cmip_var], ds_or_glob, mapping, realm=realm, **open_kwargs
         )
     logger.debug("Opened native dataset with dims: %s", ds_native.dims)
 

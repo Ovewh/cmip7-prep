@@ -498,17 +498,37 @@ class CmorSession(
         # ---- time axis ----
         # -------------------------
         time_id = None
+        time_table_entry = "time"
         self.load_table(self.tables_root, self.primarytable)
         logger.debug("Define time axis (if present)")
         tvals, tbnds, t_units = _get_time_and_bounds(ds)
         if tvals is not None:
+            # The CMOR tables define several time axis table_entry variants
+            # ("time" = time-mean, requires bounds; "time1" = point sampling,
+            # no bounds; "time2"/"time3" = climatology variants). vdef.dims
+            # carries whichever one this variable actually needs — fall back
+            # to "time" for entries that don't specify one explicitly.
+            vdef_dims = list(getattr(vdef, "dims", None) or [])
+            time_table_entry = next(
+                (
+                    d
+                    for d in vdef_dims
+                    if d == "time" or (str(d).startswith("time") and str(d)[4:].isdigit())
+                ),
+                "time",
+            )
             time_id = cmor.axis(
-                table_entry="time",
+                table_entry=time_table_entry,
                 units=t_units,
                 coord_vals=tvals,
                 cell_bounds=tbnds if tbnds is not None else None,
             )
-            logger.debug("time axis id: %s var_dims=%s", time_id, var_dims)
+            logger.debug(
+                "time axis id: %s var_dims=%s table_entry=%s",
+                time_id,
+                var_dims,
+                time_table_entry,
+            )
 
         # -------------------------
         # --- vertical: standard_hybrid_sigma
@@ -571,11 +591,19 @@ class CmorSession(
             cmor.zfactor(
                 zaxis_id=alev_id, zfactor_name="p0", units="Pa", zfactor_values=1.0e5
             )
-            # ps(time,lat,lon) zfactor must be DEFINED before the main variable
+            # ps(time,lat,lon) zfactor must be DEFINED before the main variable.
+            # The formula_terms table declares separate lookup keys per time
+            # axis variant ("ps" for "time", "ps1" for "time1", "ps2" for
+            # "time2") — all share out_name "ps", but each is only valid
+            # against its matching time axis id, so pick the one that matches
+            # time_table_entry rather than hardcoding "ps".
+            ps_zfactor_name = {"time": "ps", "time1": "ps1", "time2": "ps2"}.get(
+                time_table_entry, "ps"
+            )
             ps_da = ds[ps_name]  # ensure units are Pa
             ps_zvar_id = cmor.zfactor(
                 zaxis_id=alev_id,
-                zfactor_name="ps",
+                zfactor_name=ps_zfactor_name,
                 units="Pa",
                 axis_ids=[
                     time_id,

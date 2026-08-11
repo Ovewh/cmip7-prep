@@ -59,7 +59,7 @@ variables:
     dims: [lon, lat, lev, time1, lambda550nm]
     levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
       units: '1'}
-    sources: [model_var: EC550AER]
+    sources: [{model_var: EC550AER, freq: 3hr}]
     table: aerosol
     units: m-1
 
@@ -110,16 +110,14 @@ variables:
   od440aer_tpt-u-hxy-u:
     description: Aerosol optical depth at 440nm
     dims: [lon, lat, time1, lambda440nm]
-    formula: DOD440/DAYFOC
-    sources: [model_var: DOD440, model_var: DAYFOC]
+    sources: [model_var: DOD440]
     table: aerosol
     units: '1'
 
   od550aer_tpt-u-hxy-u:
     description: Aerosol optical depth at 550nm
     dims: [lon, lat, time1, lambda550nm]
-    formula: DOD550/DAYFOC
-    sources: [model_var: DOD550, model_var: DAYFOC]
+    sources: [model_var: DOD550]
     table: aerosol
     units: '1'
 
@@ -133,8 +131,7 @@ variables:
   od870aer_tpt-u-hxy-u:
     description: Aerosol optical depth at 870nm
     dims: [lon, lat, time1, lambda870nm]
-    formula: DOD870/DAYFOC
-    sources: [model_var: DOD870, model_var: DAYFOC]
+    sources: [model_var: DOD870]
     table: aerosol
     units: '1'
 
@@ -200,7 +197,7 @@ variables:
     dims: [lon, lat, lev, time1, lambda550nm]
     levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
       units: '1'}
-    sources: [model_var: EC550AER]
+    sources: [{model_var: EC550AER, freq: 6hr}]
     table: aerosol
     units: m-1
 
@@ -251,16 +248,14 @@ variables:
   od440aer_tpt-u-hxy-u:
     description: Aerosol optical depth at 440nm
     dims: [lon, lat, time1, lambda440nm]
-    formula: DOD440/DAYFOC
-    sources: [model_var: DOD440, model_var: DAYFOC]
+    sources: [model_var: DOD440]
     table: aerosol
     units: '1'
 
   od550aer_tpt-u-hxy-u:
     description: Aerosol optical depth at 550nm
     dims: [lon, lat, time1, lambda550nm]
-    formula: DOD550/DAYFOC
-    sources: [model_var: DOD550, model_var: DAYFOC]
+    sources: [model_var: DOD550]
     table: aerosol
     units: '1'
 
@@ -274,8 +269,7 @@ variables:
   od870aer_tpt-u-hxy-u:
     description: Aerosol optical depth at 870nm
     dims: [lon, lat, time1, lambda870nm]
-    formula: DOD870/DAYFOC
-    sources: [model_var: DOD870, model_var: DAYFOC]
+    sources: [model_var: DOD870]
     table: aerosol
     units: '1'
 
@@ -297,7 +291,7 @@ variables:
     description: Optical thickness of atmospheric aerosols at wavelength 550 nanometers.
     dims: [lon, lat, time, lambda550nm]
     formula: ABS550AL/DAYFOC
-    sources: [model_var: ABS550AL, model_var: DAYFOC]
+    sources: [{model_var: ABS550AL, freq: mon}, {model_var: DAYFOC, freq: mon}]
     table: aerosol
     units: '1'
 
@@ -305,7 +299,7 @@ variables:
     description: This is the black carbon aerosol optical depth at 550nm due to absorption
     dims: [lon, lat, time, lambda550nm]
     formula: A550_BC/DAYFOC
-    sources: [model_var: A550_BC, model_var: DAYFOC]
+    sources: [{model_var: A550_BC, freq: mon}, {model_var: DAYFOC, freq: mon}]
     table: aerosol
     units: '1'
 
@@ -313,7 +307,7 @@ variables:
     description: This is the dust aerosol optical depth at 550nm due to absorption
     dims: [lon, lat, time, lambda550nm]
     formula: A550_DU/DAYFOC
-    sources: [model_var: A550_DU, model_var: DAYFOC]
+    sources: [{model_var: A550_DU, freq: mon}, {model_var: DAYFOC, freq: mon}]
     table: aerosol
     units: '1'
 
@@ -322,7 +316,7 @@ variables:
       due to absorption
     dims: [lon, lat, time, lambda550nm]
     formula: A550_POM/DAYFOC
-    sources: [model_var: A550_POM, model_var: DAYFOC]
+    sources: [{model_var: A550_POM, freq: mon}, {model_var: DAYFOC, freq: mon}]
     table: aerosol
     units: '1'
 
@@ -330,7 +324,7 @@ variables:
     description: This is the sulphate aerosol optical depth at 550nm due to absorption
     dims: [lon, lat, time, lambda550nm]
     formula: A550_SO4/DAYFOC
-    sources: [model_var: A550_SO4, model_var: DAYFOC]
+    sources: [{model_var: A550_SO4, freq: mon}, {model_var: DAYFOC, freq: mon}]
     table: aerosol
     units: '1'
 
@@ -338,7 +332,7 @@ variables:
     description: This is the sea salt aerosol optical depth at 550nm due to absorption
     dims: [lon, lat, time, lambda550nm]
     formula: A550_SS/DAYFOC
-    sources: [model_var: A550_SS, model_var: DAYFOC]
+    sources: [{model_var: A550_SS, freq: mon}, {model_var: DAYFOC, freq: mon}]
     table: aerosol
     units: '1'
 
@@ -347,7 +341,7 @@ variables:
     dims: [lon, lat, lev, time]
     levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
       units: '1'}
-    sources: [model_var: AIRMASSL]
+    sources: [{model_var: AIRMASSL, freq: mon}]
     table: aerosol
     units: kg m-2
 
@@ -358,7 +352,7 @@ variables:
     formula: CCN7*1.e6
     levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
       units: '1'}
-    sources: [model_var: CCN7, model_var: e6]
+    sources: [{model_var: CCN7, freq: mon}, {model_var: e6, freq: mon}]
     table: aerosol
     units: m-3
 
@@ -366,7 +360,7 @@ variables:
     description: 'proposed name: number_concentration_of_ambient_aerosol_in_air_at_liquid_water_cloud_top'
     dims: [lon, lat, time]
     formula: CCN_B/FCTL_B
-    sources: [model_var: CCN_B, model_var: FCTL_B]
+    sources: [{model_var: CCN_B, freq: mon}, {model_var: FCTL_B, freq: mon}]
     table: aerosol
     units: m-3
 
@@ -377,7 +371,7 @@ variables:
     formula: CCN5*1.e6
     levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
       units: '1'}
-    sources: [model_var: CCN5, model_var: e6]
+    sources: [{model_var: CCN5, freq: mon}, {model_var: e6, freq: mon}]
     table: aerosol
     units: m-3
 
@@ -387,7 +381,7 @@ variables:
     formula: AWNC/FREQL
     levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
       units: '1'}
-    sources: [model_var: AWNC, model_var: FREQL]
+    sources: [{model_var: AWNC, freq: mon}, {model_var: FREQL, freq: mon}]
     table: aerosol
     units: m-3
 
@@ -397,7 +391,7 @@ variables:
     formula: AQSO4_H2O2+AQSO4_O3
     levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
       units: '1'}
-    sources: [model_var: AQSO4_H2O2, model_var: AQSO4_O3]
+    sources: [{model_var: AQSO4_H2O2, freq: mon}, {model_var: AQSO4_O3, freq: mon}]
     table: aerosol
     units: kg m-2 s-1
 
@@ -406,7 +400,7 @@ variables:
     dims: [lon, lat, lev, time]
     levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
       units: '1'}
-    sources: [model_var: GS_H2SO4]
+    sources: [{model_var: GS_H2SO4, freq: mon}]
     table: aerosol
     units: kg m-2 s-1
 
@@ -424,35 +418,35 @@ variables:
       the phrase.
     dims: [lon, lat, time]
     formula: TAUTMODIS/CLTMODIS
-    sources: [model_var: TAUTMODIS, model_var: CLTMODIS]
+    sources: [{model_var: TAUTMODIS, freq: day}, {model_var: CLTMODIS, freq: day}, {model_var: TAUTMODIS, freq: mon}, {model_var: CLTMODIS, freq: mon}]
     table: aerosol
     units: '1'
 
   drydust_tavg-u-hxy-u:
     description: Dry Deposition Rate of Dust
     dims: [lon, lat, time]
-    sources: [model_var: dry_DUST]
+    sources: [{model_var: dry_DUST, freq: mon}]
     table: aerosol
     units: kg m-2 s-1
 
   dryso2_tavg-u-hxy-u:
     description: Dry Deposition Rate of SO2
     dims: [lon, lat, time]
-    sources: [model_var: DF_SO2]
+    sources: [{model_var: DF_SO2, freq: mon}]
     table: aerosol
     units: kg m-2 s-1
 
   dryso4_tavg-u-hxy-u:
     description: Dry Deposition Rate of SO4
     dims: [lon, lat, time]
-    sources: [model_var: dry_SULFATE]
+    sources: [{model_var: dry_SULFATE, freq: mon}]
     table: aerosol
     units: kg m-2 s-1
 
   dryss_tavg-u-hxy-u:
     description: Dry Deposition Rate of Sea-Salt Aerosol
     dims: [lon, lat, time]
-    sources: [model_var: dry_SALT]
+    sources: [{model_var: dry_SALT, freq: mon}]
     table: aerosol
     units: kg m-2 s-1
 
@@ -462,14 +456,14 @@ variables:
     formula: EC550AER/DAYFOC
     levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
       units: '1'}
-    sources: [model_var: EC550AER, model_var: DAYFOC]
+    sources: [{model_var: EC550AER, freq: mon}, {model_var: DAYFOC, freq: mon}]
     table: aerosol
     units: m-1
 
   emibc_tavg-u-hxy-u:
     description: Integrate 3D emission field vertically to 2d field.
     dims: [lon, lat, time]
-    sources: [model_var: emis_BC]
+    sources: [{model_var: emis_BC, freq: mon}]
     table: aerosol
     units: kg m-2 s-1
 
@@ -480,7 +474,7 @@ variables:
       a comment to your file.
     dims: [lon, lat, time]
     formula: emis_isoprene+emis_monoterp
-    sources: [model_var: emis_isoprene, model_var: emis_monoterp]
+    sources: [{model_var: emis_isoprene, freq: mon}, {model_var: emis_monoterp, freq: mon}]
     table: aerosol
     units: kg m-2 s-1
 
@@ -491,14 +485,14 @@ variables:
       model has more detailed info available.  Integrate 3D chemical production and
       emission field vertically to 2d field.
     dims: [lon, lat, time]
-    sources: [model_var: emis_OM]
+    sources: [{model_var: emis_OM, freq: mon}]
     table: aerosol
     units: kg m-2 s-1
 
   emiso2_tavg-u-hxy-u:
     description: Integrate 3D emission field vertically to 2d field.
     dims: [lon, lat, time]
-    sources: [model_var: emis_SO2]
+    sources: [{model_var: emis_SO2, freq: mon}]
     table: aerosol
     units: kg m-2 s-1
 
@@ -506,14 +500,14 @@ variables:
     description: Direct primary emission does not include secondary sulfate production.
       Integrate 3D emission field vertically to 2d field.
     dims: [lon, lat, time]
-    sources: [model_var: emis_SULFATE]
+    sources: [{model_var: emis_SULFATE, freq: mon}]
     table: aerosol
     units: kg m-2 s-1
 
   emiss_tavg-u-hxy-u:
     description: Integrate 3D emission field vertically to 2d field.
     dims: [lon, lat, time]
-    sources: [model_var: emis_SALT]
+    sources: [{model_var: emis_SALT, freq: mon}]
     table: aerosol
     units: kg m-2 s-1
 
@@ -524,7 +518,7 @@ variables:
       a comment to your file.
     dims: [lon, lat, time]
     formula: emis_isoprene+emis_monoterp
-    sources: [model_var: emis_isoprene, model_var: emis_monoterp]
+    sources: [{model_var: emis_isoprene, freq: mon}, {model_var: emis_monoterp, freq: mon}]
     table: aerosol
     units: kg m-2 s-1
 
@@ -534,7 +528,7 @@ variables:
       radical is HO2.
     dims: [time, plev, lat]
     levels: {name: plev39, units: Pa}
-    sources: [model_var: HO2_aft]
+    sources: [{model_var: HO2_aft, freq: mon}]
     table: aerosol
     units: mol mol-1
 
@@ -543,14 +537,14 @@ variables:
     dims: [lon, lat, lev, time]
     levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
       units: '1'}
-    sources: [model_var: isoprene]
+    sources: [{model_var: isoprene, freq: mon}]
     table: aerosol
     units: mol mol-1
 
   mmraerh2o_tavg-h2m-hxy-u:
     description: Daily mean Aerosol water mass mixing ratio near surface.
     dims: [lon, lat, time, height2m]
-    sources: [model_var: MMR_AH2O]
+    sources: [{model_var: MMR_AH2O, freq: day}]
     table: aerosol
     units: kg kg-1
 
@@ -559,21 +553,21 @@ variables:
     dims: [lon, lat, lev, time]
     levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
       units: '1'}
-    sources: [model_var: mmr_BC]
+    sources: [{model_var: mmr_BC, freq: mon}]
     table: aerosol
     units: kg kg-1
 
   mmrbc_tavg-h2m-hxy-u:
     description: Daily mean elemental carbon mass mixing ratio near surface.
     dims: [lon, lat, time, height2m]
-    sources: [model_var: mmr_BC]
+    sources: [{model_var: mmr_BC, freq: day}]
     table: aerosol
     units: kg kg-1
 
   mmrdust_tavg-h2m-hxy-u:
     description: Daily mean dust aerosol mass mixing ratio near surface.
     dims: [lon, lat, time, height2m]
-    sources: [model_var: mmr_DUST]
+    sources: [{model_var: mmr_DUST, freq: day}]
     table: aerosol
     units: kg kg-1
 
@@ -583,21 +577,21 @@ variables:
     dims: [lon, lat, lev, time]
     levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
       units: '1'}
-    sources: [model_var: mmr_OM]
+    sources: [{model_var: mmr_OM, freq: mon}]
     table: aerosol
     units: kg kg-1
 
   mmroa_tavg-h2m-hxy-u:
     description: Daily mean total organic aerosol mass mixing ratio near surface.
     dims: [lon, lat, time, height2m]
-    sources: [model_var: mmr_OM]
+    sources: [{model_var: mmr_OM, freq: day}]
     table: aerosol
     units: kg kg-1
 
   mmrso4_tavg-h2m-hxy-u:
     description: Daily mean sulfate aerosol mass mixing ratio near surface.
     dims: [lon, lat, time, height2m]
-    sources: [model_var: mmr_SULFATE]
+    sources: [{model_var: mmr_SULFATE, freq: day}]
     table: aerosol
     units: kg kg-1
 
@@ -605,7 +599,7 @@ variables:
     description: Daily mean secondary organic aerosol mass mixing ratio near surface.
     dims: [lon, lat, time, height2m]
     formula: SOA_NA+SOA_A1
-    sources: [model_var: SOA_NA, model_var: SOA_A1]
+    sources: [{model_var: SOA_NA, freq: day}, {model_var: SOA_A1, freq: day}]
     table: aerosol
     units: kg kg-1
 
@@ -614,14 +608,14 @@ variables:
     dims: [lon, lat, lev, time]
     levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
       units: '1'}
-    sources: [model_var: mmr_SALT]
+    sources: [{model_var: mmr_SALT, freq: mon}]
     table: aerosol
     units: kg kg-1
 
   mmrss_tavg-h2m-hxy-u:
     description: Daily mean Sea Salt mass mixing ratio near surface.
     dims: [lon, lat, time, height2m]
-    sources: [model_var: mmr_SALT]
+    sources: [{model_var: mmr_SALT, freq: day}]
     table: aerosol
     units: kg kg-1
 
@@ -632,7 +626,7 @@ variables:
       550 nm"'
     dims: [lon, lat, time, lambda550nm]
     formula: DOD550/DAYFOC
-    sources: [model_var: DOD550, model_var: DAYFOC]
+    sources: [{model_var: DOD550, freq: day}, {model_var: DAYFOC, freq: day}, {model_var: DOD550, freq: mon}, {model_var: DAYFOC, freq: mon}]
     table: aerosol
     units: '1'
 
@@ -640,7 +634,7 @@ variables:
     description: 'proposed name: atmosphere_optical_thickness_due_to_water_ambient_aerosol'
     dims: [lon, lat, time, lambda550nm]
     formula: (DOD550-OD550DRY)/DAYFOC
-    sources: [model_var: DOD550, model_var: OD550DRY, model_var: DAYFOC]
+    sources: [{model_var: DOD550, freq: mon}, {model_var: OD550DRY, freq: mon}, {model_var: DAYFOC, freq: mon}]
     table: aerosol
     units: '1'
 
@@ -648,7 +642,7 @@ variables:
     description: Total aerosol AOD due to dust aerosol at a wavelength of 550 nanometres.
     dims: [lon, lat, time, lambda550nm]
     formula: D550_DU/DAYFOC
-    sources: [model_var: D550_DU, model_var: DAYFOC]
+    sources: [{model_var: D550_DU, freq: mon}, {model_var: DAYFOC, freq: mon}]
     table: aerosol
     units: '1'
 
@@ -657,7 +651,7 @@ variables:
       + secondary ; natural + anthropogenic including biomasss burning organic aerosol
     dims: [lon, lat, time, lambda550nm]
     formula: D550_POM/DAYFOC
-    sources: [model_var: D550_POM, model_var: DAYFOC]
+    sources: [{model_var: D550_POM, freq: mon}, {model_var: DAYFOC, freq: mon}]
     table: aerosol
     units: '1'
 
@@ -666,7 +660,7 @@ variables:
       nanometres.
     dims: [lon, lat, time, lambda550nm]
     formula: D550_SS/DAYFOC
-    sources: [model_var: D550_SS, model_var: DAYFOC]
+    sources: [{model_var: D550_SS, freq: mon}, {model_var: DAYFOC, freq: mon}]
     table: aerosol
     units: '1'
 
@@ -675,7 +669,7 @@ variables:
       where X is a material constituent of Y.
     dims: [time, plev, lat]
     levels: {name: plev39, units: Pa}
-    sources: [model_var: OH_aft]
+    sources: [{model_var: OH_aft, freq: mon}]
     table: aerosol
     units: mol mol-1
 
@@ -689,7 +683,7 @@ variables:
       of  (as seen from TOA) each time sample when computing monthly mean.
     dims: [lon, lat, time]
     formula: REFFCLWMODIS/CLWMODIS
-    sources: [model_var: REFFCLWMODIS, model_var: CLWMODIS]
+    sources: [{model_var: REFFCLWMODIS, freq: mon}, {model_var: CLWMODIS, freq: mon}]
     table: aerosol
     units: m
 
@@ -698,7 +692,7 @@ variables:
     dims: [lon, lat, time]
     formula: FSNTOACAF-FSNTCAF+FLNTCAF
     positive: up
-    sources: [model_var: FSNTOACAF, model_var: FSNTCAF, model_var: FLNTCAF]
+    sources: [{model_var: FSNTOACAF, freq: mon}, {model_var: FSNTCAF, freq: mon}, {model_var: FLNTCAF, freq: mon}]
     table: aerosol
     units: W m-2
 
@@ -708,14 +702,14 @@ variables:
     dims: [lon, lat, lev, time]
     levels: {name: standard_hybrid_sigma, src_axis_bnds: ilev, src_axis_name: lev,
       units: '1'}
-    sources: [model_var: SO2]
+    sources: [{model_var: SO2, freq: mon}]
     table: aerosol
     units: mol mol-1
 
   so2_tavg-h2m-hxy-u:
     description: Daily mean SO2 volume mixing ratio near surface.
     dims: [lon, lat, time, height2m]
-    sources: [model_var: SO2]
+    sources: [{model_var: SO2, freq: day}]
     table: aerosol
     units: mol mol-1
 
@@ -723,49 +717,49 @@ variables:
     description: 2D monthly mean thermal tropopause calculated using WMO tropopause
       definition on 3d temperature
     dims: [lon, lat, time]
-    sources: [model_var: TROP_T]
+    sources: [{model_var: TROP_T, freq: mon}]
     table: aerosol
     units: K
 
   toz_tavg-u-hxy-u:
     description: Total ozone column
     dims: [lon, lat, time]
-    sources: [model_var: cb_ozone_c]
+    sources: [{model_var: cb_ozone_c, freq: day}, {model_var: cb_ozone_c, freq: mon}]
     table: aerosol
     units: m
 
   ua_tavg-10hPa-hxy-air:
     description: Zonal wind on the 10 hPa surface
     dims: [lon, lat, time, p10]
-    sources: [model_var: U010]
+    sources: [{model_var: U010, freq: day}]
     table: aerosol
     units: m s-1
 
   wetbc_tavg-u-hxy-u:
     description: Surface deposition rate of black carbon (dry mass) due to wet processes
     dims: [lon, lat, time]
-    sources: [model_var: wet_BC]
+    sources: [{model_var: wet_BC, freq: mon}]
     table: aerosol
     units: kg m-2 s-1
 
   wetdust_tavg-u-hxy-u:
     description: Surface deposition rate of dust (dry mass) due to wet processes
     dims: [lon, lat, time]
-    sources: [model_var: wet_DUST]
+    sources: [{model_var: wet_DUST, freq: mon}]
     table: aerosol
     units: kg m-2 s-1
 
   wetso2_tavg-u-hxy-u:
     description: Deposition rate of sulfur dioxide due to wet processes
     dims: [lon, lat, time]
-    sources: [model_var: WD_A_SO2]
+    sources: [{model_var: WD_A_SO2, freq: mon}]
     table: aerosol
     units: kg m-2 s-1
 
   wetso4_tavg-u-hxy-u:
     description: 'proposed name: tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_wet_deposition'
     dims: [lon, lat, time]
-    sources: [model_var: wet_SULFATE]
+    sources: [{model_var: wet_SULFATE, freq: mon}]
     table: aerosol
     units: kg m-2 s-1
 
@@ -773,6 +767,6 @@ variables:
     description: Deposition rate of sea salt aerosols (measured by the dry mass) due
       to wet processes
     dims: [lon, lat, time]
-    sources: [model_var: wet_SALT]
+    sources: [{model_var: wet_SALT, freq: mon}]
     table: aerosol
     units: kg m-2 s-1

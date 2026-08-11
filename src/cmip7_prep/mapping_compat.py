@@ -384,11 +384,15 @@ class Mapping:
 
         When ``freq`` is provided, variables whose sources are only tagged for
         other frequencies are excluded. Untagged sources remain eligible for
-        all frequencies.
+        all frequencies. Point-sampled ("tpt") branded variables are always
+        excluded from monthly ("mon") output, since instantaneous sampling is
+        incompatible with a monthly-mean product.
         """
         effective_freq = freq if freq is not None else self.default_freq
         names = []
         for cmip_name, internal_keys in self._variant_keys.items():
+            if effective_freq == "mon" and _temporal_label(cmip_name) == "tpt":
+                continue
             if any(
                 _mapping_entry_supports_frequency(self._raw.get(key), effective_freq)
                 for key in internal_keys
@@ -514,6 +518,24 @@ def _filter_sources(sources: List[Any], freq: Optional[str]) -> List[Any]:
     if matched:
         return matched + untagged
     return untagged if untagged else sources
+
+
+def _temporal_label(branded_name: str) -> Optional[str]:
+    """Extract the temporal_label component from a CMIP7 branded variable name.
+
+    Branded names follow ``<name>_<temporal_label>-<vertical_label>-<horizontal_label>-<area_label>``.
+
+    >>> _temporal_label("abs550aer_tavg-u-hxy-u")
+    'tavg'
+    >>> _temporal_label("reffcclctop_tpt-u-hxy-cl")
+    'tpt'
+    >>> _temporal_label("no_branding_suffix") is None
+    True
+    """
+    if "_" not in branded_name:
+        return None
+    suffix = branded_name.rsplit("_", 1)[-1]
+    return suffix.split("-", 1)[0] if "-" in suffix else None
 
 
 def _mapping_entry_supports_frequency(
